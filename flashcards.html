@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>FlashStash | My Flashcards</title>
+		<meta name="description" content="Manage or view your collection of flashcards on this page. Clicking on a flashcard set will display its corresponding flashcards.">
+	</head>
+	<body>
+		<header>
+			<img src="images/logo-placeholder.png" alt="FlashStash Logo">
+
+			<nav>
+				<ul>
+					<li><a href="/">Home</a></li>
+					<li><a href="/about.html">About</a></li>
+					<li><a href="/flashcards.html">My Flashcards</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main>
+			<!-- Flashcard Sets View (Default View) -->
+			<!-- This is the default view the user sees when they land on this page. Once I work on the JS code of the website, the user can click into a flashcard set and the page will switch to the Individual Flashcard Set view. -->
+			<section>
+				<h1>My Flashcards</h1>
+				<p>Below are your flashcard sets. Click into a set below to view or manage its corresponding flashcards.</p>
+				<div>
+					<form id="sets-search-form" action="" method="get">
+						<label for="sets-search-keywords">Search Flashcard Set</label>
+						<input id="sets-search-keywords" name="search" type="text" placeholder="Your Set Name">
+					</form>
+
+					<!-- This will open the dialog element when clicked once I work on the JS code of the website -->
+					<button type="button">Create Set</button>
+				</div>
+
+				<!-- This dialog will be closed by default and function as intended once I work on the JS code of the website, I left it open to showcase it -->
+				<dialog open>
+					<button type="button">Close</button>
+
+					<h2>Create Set</h2>
+					<form id="sets-create-form" action="" method="dialog">
+						<label for="sets-create-name">Set Name</label>
+						<input id="sets-create-name" name="name" type="text" placeholder="Your Set Name" required autofocus>
+						<button type="submit">Create Set</button>
+					</form>
+				</dialog>
+
+				<ul>
+					<li>
+						<h2>Flashcard Set #1</h2>
+						<!-- This buttons will function as indicated by their labels once I work on the JS code of the website. -->
+						<div>
+							<button type="button" aria-label="Edit Flashcard Set #1">Edit</button>
+							<button type="button" aria-label="Edit Flashcard Set #1">Delete</button>
+						</div>
+					</li>
+
+					<li>
+						<h2>Flashcard Set #2</h2>
+						<!-- This buttons will function as indicated by their labels once I work on the JS code of the website. -->
+						<div>
+							<button type="button" aria-label="Edit Flashcard Set #2">Edit</button>
+							<button type="button" aria-label="Edit Flashcard Set #2">Delete</button>
+						</div>
+					</li>
+
+					<li>
+						<h2>Flashcard Set #3</h2>
+						<!-- This buttons will function as indicated by their labels once I work on the JS code of the website. -->
+						<div>
+							<button type="button" aria-label="Edit Flashcard Set #3">Edit</button>
+							<button type="button" aria-label="Edit Flashcard Set #3">Delete</button>
+						</div>
+					</li>
+				</ul>
+
+				<!-- This dialog will be closed by default and function as intended once I work on the JS code of the website, I left it open to showcase it -->
+				<dialog open>
+					<button type="button">Close</button>
+
+					<h2>Edit Set</h2>
+					<form id="sets-edit-form" action="" method="dialog">
+						<label for="sets-edit-name">Set Name</label>
+						<input id="sets-edit-name" name="name" type="text" placeholder="Your Set Name" value="Flashcard Set #1" required autofocus>
+						<button type="submit">Save Changes</button>
+					</form>
+				</dialog>
+
+				<!-- This dialog will be closed by default and function as intended once I work on the JS code of the website, I left it open to showcase it -->
+				<dialog open>
+					<button type="button">Close</button>
+
+					<h2>Delete Set</h2>
+					<form id="sets-delete-form" action="" method="dialog">
+						<label>Are you sure you want to delete this set? This action cannot be reverted.</label>
+						<button type="submit">Confirm</button>
+						<button type="button">Cancel</button>
+					</form>
+				</dialog>
+			</section>
+		</main>
+
+		<footer>
+			<a href="/privacy-policy.html">Privacy Policy</a>
+			<p><small>Copyright &copy; 2025</small></p>
+		</footer>
+	</body>
+</html>
