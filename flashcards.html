@@ -101,6 +101,121 @@
 					</form>
 				</dialog>
 			</section>
+
+			<!-- This template contains the contents of the "Individual Set" view and is intended to replace the contents of the #flashcards-section when a user clicks a set. This will also require JS code to work as intended. -->
+			<template id="flashcards-view-template">
+				<h1 id="flashcard-set-name">Set Name</h1>
+				<div>
+					<form id="cards-search-form" action="" method="get">
+						<label for="cards-search-keywords">Search for a Flashcard</label>
+						<input id="cards-search-keywords" name="search" type="text" placeholder="Search keywords">
+					</form>
+
+					<!-- This will open the dialog element below when clicked once I work on the JS code of the website -->
+					<button type="button">Add Flashcard</button>
+				</div>
+
+				<!-- This dialog will function as intended once I work on the JS code of the website -->
+				<dialog id="add-flashcard-dialog">
+					<button type="button">Close</button>
+
+					<h2>Add Flashcard</h2>
+					<form id="add-card-form" action="" method="dialog">
+						<label for="add-card-question">Question/Term</label>
+						<input id="add-card-question" name="question" type="text" placeholder="What is FlashStash?" required autofocus>
+
+						<label for="add-card-answer">Answer/Definition</label>
+						<input id="add-card-answer" name="answer" type="text" placeholder="FlashStash is a study platform that allows users to manage their own flashcards." required autofocus>
+
+						<button type="submit">Add Flashcard</button>
+					</form>
+				</dialog>
+
+				<!-- Once I work on the JS code of the website, this unordered list will load the flashcards from the local storage instead of containing hard-coded sets. -->
+				<ul id="flashcards">
+					<li>
+						<dl>
+							<dt>Flashcard #1 Question</dt>
+							<dd>Answer to Flashcard #1 Question</dd>
+						</dl>
+
+						<!-- This buttons will function as indicated by their labels once I work on the JS code of the website -->
+						<div>
+							<button type="button" aria-label="Edit Flashcard Set #1">Edit</button>
+							<button type="button" aria-label="Edit Flashcard Set #1">Delete</button>
+						</div>
+					</li>
+
+					<li>
+						<dl>
+							<dt>Flashcard #2 Question</dt>
+							<dd>Answer to Flashcard #2 Question</dd>
+						</dl>
+
+						<!-- This buttons will function as indicated by their labels once I work on the JS code of the website -->
+						<div>
+							<button type="button" aria-label="Edit Flashcard Set #2">Edit</button>
+							<button type="button" aria-label="Edit Flashcard Set #2">Delete</button>
+						</div>
+					</li>
+
+					<li>
+						<dl>
+							<dt>Flashcard #3 Question</dt>
+							<dd>Answer to Flashcard #3 Question</dd>
+						</dl>
+
+						<!-- This buttons will function as indicated by their labels once I work on the JS code of the website -->
+						<div>
+							<button type="button" aria-label="Edit Flashcard Set #3">Edit</button>
+							<button type="button" aria-label="Edit Flashcard Set #3">Delete</button>
+						</div>
+					</li>
+				</ul>
+
+				<!-- This dialog will function as intended once I work on the JS code of the website -->
+				<dialog id="edit-flashcard-dialog">
+					<button type="button">Close</button>
+
+					<h2>Edit Flashcard</h2>
+					<form id="edit-card-form" action="" method="dialog">
+						<label for="edit-card-question">Question/Term</label>
+						<input id="edit-card-question" name="question" type="text" placeholder="What is FlashStash?" value="Flashcard #1 Question" required autofocus>
+
+						<label for="edit-card-answer">Answer/Definition</label>
+						<input id="edit-card-answer" name="answer" type="text" placeholder="FlashStash is a study platform that allows users to manage their own flashcards." value="Answer to Flashcard #1 Question" required autofocus>
+
+						<button type="submit">Save Changes</button>
+					</form>
+				</dialog>
+
+				<!-- This dialog will function as intended once I work on the JS code of the website -->
+				<dialog id="delete-flashcard-dialog">
+					<button type="button">Close</button>
+
+					<h2>Delete Flashcard</h2>
+					<form id="delete-card-form" action="" method="dialog">
+						<label>Are you sure you want to delete this flashcard? This action cannot be reverted.</label>
+						<button type="submit">Confirm</button>
+						<button type="button">Cancel</button>
+					</form>
+				</dialog>
+			</template>
+
+			<!-- This template will serve as the structure of the flashcards that will be dynamically added to the #flashcards element -->
+			<template id="flashcard-template">
+				<li>
+					<dl>
+						<dt></dt>
+						<dd></dd>
+					</dl>
+
+					<div>
+						<button type="button" aria-label="">Edit</button>
+						<button type="button" aria-label="">Delete</button>
+					</div>
+				</li>
+			</template>
 		</main>
 
 		<footer>
