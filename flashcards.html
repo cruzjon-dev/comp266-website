@@ -42,11 +42,11 @@
 					<button type="button">Create Set</button>
 				</div>
 
-				<!-- This dialog will be closed by default and function as intended once I work on the JS code of the website, I left it open to showcase it -->
-				<dialog id="add-set-dialog" open>
+				<!-- This dialog will function as intended once I work on the JS code of the website -->
+				<dialog id="add-set-dialog" aria-labelledby="add-set-dialog-title">
 					<button type="button">Close</button>
 
-					<h2>Create Set</h2>
+					<h2 id="add-set-dialog-title">Create Set</h2>
 					<form id="add-set-form" method="dialog">
 						<label for="add-set-name">Set Name</label>
 						<input id="add-set-name" name="name" type="text" placeholder="Your Set Name" required autofocus>
@@ -84,11 +84,11 @@
 					</li>
 				</ul>
 
-				<!-- This dialog will be closed by default and function as intended once I work on the JS code of the website, I left it open to showcase it -->
-				<dialog id="edit-set-dialog" open>
+				<!-- This dialog will function as intended once I work on the JS code of the website -->
+				<dialog id="edit-set-dialog" aria-labelledby="edit-set-dialog-title">
 					<button type="button">Close</button>
 
-					<h2>Edit Set</h2>
+					<h2 id="edit-set-dialog-title">Edit Set</h2>
 					<form id="edit-set-form" method="dialog">
 						<label for="edit-set-name">Set Name</label>
 						<input id="edit-set-name" name="name" type="text" placeholder="Your Set Name" value="Flashcard Set #1" required autofocus>
@@ -96,11 +96,11 @@
 					</form>
 				</dialog>
 
-				<!-- This dialog will be closed by default and function as intended once I work on the JS code of the website, I left it open to showcase it -->
-				<dialog id="delete-set-dialog" open>
+				<!-- This dialog will function as intended once I work on the JS code of the website -->
+				<dialog id="delete-set-dialog" aria-labelledby="delete-set-dialog-title">
 					<button type="button">Close</button>
 
-					<h2>Delete Set</h2>
+					<h2 id="delete-set-dialog-title">Delete Set</h2>
 					<form id="delete-set-form" method="dialog">
 						<label>Are you sure you want to delete this set? This action cannot be reverted.</label>
 						<button type="submit">Confirm</button>
@@ -123,10 +123,10 @@
 				</div>
 
 				<!-- This dialog will function as intended once I work on the JS code of the website -->
-				<dialog id="add-flashcard-dialog">
+				<dialog id="add-flashcard-dialog" aria-labelledby="add-flashcard-dialog-title">
 					<button type="button">Close</button>
 
-					<h2>Add Flashcard</h2>
+					<h2 id="add-flashcard-dialog-title">Add Flashcard</h2>
 					<form id="add-card-form" method="dialog">
 						<label for="add-card-question">Question/Term</label>
 						<input id="add-card-question" name="question" type="text" placeholder="What is FlashStash?" required autofocus>
@@ -190,10 +190,10 @@
 				</ul>
 
 				<!-- This dialog will function as intended once I work on the JS code of the website -->
-				<dialog id="edit-flashcard-dialog">
+				<dialog id="edit-flashcard-dialog" aria-labelledby="edit-flashcard-dialog-title">
 					<button type="button">Close</button>
 
-					<h2>Edit Flashcard</h2>
+					<h2 id="edit-flashcard-dialog-title">Edit Flashcard</h2>
 					<form id="edit-card-form" method="dialog">
 						<label for="edit-card-question">Question/Term</label>
 						<input id="edit-card-question" name="question" type="text" placeholder="What is FlashStash?" value="Flashcard #1 Question" required autofocus>
@@ -206,10 +206,10 @@
 				</dialog>
 
 				<!-- This dialog will function as intended once I work on the JS code of the website -->
-				<dialog id="delete-flashcard-dialog">
+				<dialog id="delete-flashcard-dialog" aria-labelledby="edit-flashcard-dialog-title">
 					<button type="button">Close</button>
 
-					<h2>Delete Flashcard</h2>
+					<h2 id="edit-flashcard-dialog-title">Delete Flashcard</h2>
 					<form id="delete-card-form" method="dialog">
 						<label>Are you sure you want to delete this flashcard? This action cannot be reverted.</label>
 						<button type="submit">Confirm</button>
