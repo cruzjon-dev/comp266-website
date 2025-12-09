@@ -143,8 +143,11 @@
 					<li>
 						<dl>
 							<dt>Flashcard #1 Question</dt>
-							<dd>Answer to Flashcard #1 Question</dd>
+							<dd aria-hidden="true">Answer to Flashcard #1 Question</dd>
 						</dl>
+
+						<!-- This is intended to be an element that fills up the entire card and will toggle the card once I work on the JS code of the website -->
+						<button aria-label="Show Answer" aria-pressed="false"></button>
 
 						<!-- This buttons will function as indicated by their labels once I work on the JS code of the website -->
 						<div>
@@ -156,8 +159,11 @@
 					<li>
 						<dl>
 							<dt>Flashcard #2 Question</dt>
-							<dd>Answer to Flashcard #2 Question</dd>
+							<dd aria-hidden="true">Answer to Flashcard #2 Question</dd>
 						</dl>
+
+						<!-- This is intended to be an element that fills up the entire card and will toggle the card once I work on the JS code of the website -->
+						<button aria-label="Show Answer" aria-pressed="false"></button>
 
 						<!-- This buttons will function as indicated by their labels once I work on the JS code of the website -->
 						<div>
@@ -169,8 +175,11 @@
 					<li>
 						<dl>
 							<dt>Flashcard #3 Question</dt>
-							<dd>Answer to Flashcard #3 Question</dd>
+							<dd aria-hidden="true">Answer to Flashcard #3 Question</dd>
 						</dl>
+
+						<!-- This is intended to be an element that fills up the entire card and will toggle the card once I work on the JS code of the website -->
+						<button aria-label="Show Answer" aria-pressed="false"></button>
 
 						<!-- This buttons will function as indicated by their labels once I work on the JS code of the website -->
 						<div>
@@ -210,12 +219,16 @@
 			</template>
 
 			<!-- This template will serve as the structure of the flashcards that will be dynamically added to the #flashcards element -->
+			<!-- The text content and attribute values of these elements will be filled through JS -->
 			<template id="flashcard-template">
 				<li>
 					<dl>
 						<dt></dt>
-						<dd></dd>
+						<dd aria-hidden="true"></dd>
 					</dl>
+
+					<!-- This is intended to be an element that fills up the entire card and will toggle the card once I work on the JS code of the website -->
+					<button aria-label="Show Answer" aria-pressed="false"></button>
 
 					<div>
 						<button type="button" aria-label="">Edit</button>
