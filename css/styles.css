@@ -27,6 +27,11 @@
 	--font-size-h6: 1.125rem; /* 18px */
 	--font-size-p: 1rem; /* 16px */
 	--font-size-small: 0.75rem; /* 12px */
+
+	/* Line Heights */
+	--line-height-large: 1.5;
+	--line-height-medium: 1.333;
+	--line-height-small: 1.125;
 }
 
 @media all and (min-width: 1025px) {
