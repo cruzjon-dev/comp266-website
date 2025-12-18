@@ -341,8 +341,10 @@ details > h3 {
 }
 
 summary {
+	--summary-icon-size: var(--font-size-h5);
+
 	position: relative;
-	padding-right: 20px;
+	padding-right: calc(var(--summary-icon-size) + 10px);
 	list-style: none;
 	cursor: pointer;
 }
@@ -353,7 +355,7 @@ summary::after {
 	top: 50%;
 	right: 0;
 	font-family: 'Font Awesome 7 Free';
-	font-size: var(--font-size-h5);
+	font-size: var(--summary-icon-size);
 	font-weight: 700;
 	color: var(--color-purple);
 	line-height: 1;
