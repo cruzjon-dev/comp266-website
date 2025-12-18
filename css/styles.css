@@ -185,6 +185,73 @@ a:hover, a:focus {
 	}
 }
 
+/*-----------------------------------
+- Form Elements
+-----------------------------------*/
+
+.form-control {
+	margin-bottom: 20px;
+}
+
+.form-control > label {
+	display: block;
+	margin-bottom: 10px;
+	font-weight: 500;
+}
+
+.form-control input[type="text"],
+.form-control textarea {
+	display: block;
+	width: 100%;
+}
+
+.form-buttons {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	margin-top: 20px;
+}
+
+input[type="text"],
+textarea {
+	border: 2px solid var(--color-gray-light);
+	border-radius: 7px;
+	padding: 10px 20px;
+	appearance: none;
+}
+
+input::placeholder,
+textarea::placeholder {
+	color: var(--color-gray-dark);
+}
+
+input[type="text"] {
+	line-height: 1;
+}
+
+textarea {
+	height: 150px;
+	resize: none;
+}
+
+button:not([disabled]) {
+	cursor: pointer;
+}
+
+dialog input[type="text"],
+dialog textarea,
+dialog .button {
+	padding-block: 10px;
+}
+
+@media all and (min-width: 1025px) {
+	input[type="text"],
+	textarea {
+		padding-block: 15px;
+	}
+}
+
 
 /*-----------------------------------
 - Details and Summary (Accordions)
