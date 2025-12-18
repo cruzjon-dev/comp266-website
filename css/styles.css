@@ -337,7 +337,7 @@ details:last-child {
 
 details > h3 {
 	margin-bottom: 10px;
-	font-size: var(--font-size-h5);
+	font-size: var(--font-size-h6);
 }
 
 summary {
