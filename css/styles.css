@@ -254,6 +254,67 @@ dialog .button {
 
 
 /*-----------------------------------
+- Dialog Boxes/Modal Windows
+-----------------------------------*/
+
+dialog {
+	--close-icon-size: var(--font-size-h6);
+
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	max-width: calc(100% - 40px);
+	border: none;
+	border-radius: 10px;
+	background-color: var(--color-white);
+	color: inherit;
+	box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.16);
+	transform: translate(-50%, -50%);
+	z-index: 100;
+}
+
+dialog h2 {
+	margin-bottom: 10px;
+	padding-right: calc(var(--close-icon-size) + 20px);
+	font-size: var(--font-size-h3);
+}
+
+.dialog-close-button {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	width: var(--close-icon-size);
+	height: var(--close-icon-size);
+	border: none;
+	padding: 0;
+	background: none;
+	font-size: var(--close-icon-size);
+	line-height: 1;
+	color: var(--color-gray-darker);
+	text-indent: -9999rem;
+	overflow: hidden;
+	appearance: none;
+	transition: color 300ms ease;
+}
+
+.dialog-close-button::before {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	content: '\f00d';
+	font-family: 'Font Awesome 7 Free';
+	font-weight: 700;
+	text-indent: 0;
+	transform: translate(-50%, -50%);
+}
+
+.dialog-close-button:hover,
+.dialog-close-button:focus {
+	color: var(--color-purple);
+}
+
+
+/*-----------------------------------
 - Details and Summary (Accordions)
 -----------------------------------*/
 
