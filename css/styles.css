@@ -235,15 +235,6 @@ a:hover, a:focus {
 	width: 100%;
 }
 
-.form-buttons {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-wrap: wrap;
-	gap: 10px;
-	margin-top: 20px;
-}
-
 input[type="text"],
 textarea {
 	border: 2px solid var(--color-gray-light);
