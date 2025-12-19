@@ -261,10 +261,6 @@ textarea::placeholder {
 	color: var(--color-gray-dark);
 }
 
-input[type="text"] {
-	line-height: 1;
-}
-
 textarea {
 	height: 150px;
 	resize: none;
