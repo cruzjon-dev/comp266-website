@@ -416,3 +416,113 @@ details[open] summary h2 {
 		margin-bottom: 20px;
 	}
 }
+
+/*-----------------------------------
+- Site Header
+-----------------------------------*/
+
+#navigation-bar {
+	padding-block: 20px;
+}
+
+#navigation-bar .container {
+	display: flex;
+	align-items: center;
+	flex-wrap: nowrap;
+	gap: 20px;
+}
+
+#navigation-bar .site-logo {
+	height: 40px;
+}
+
+#site-navigation {
+	margin-left: auto;
+}
+
+#navigation-menu {
+	display: none;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+#navigation-menu a {
+	position: relative;
+	font-weight: 500;
+	color: var(--color-gray-darker);
+	text-decoration: none;
+}
+
+#navigation-menu a:hover,
+#navigation-menu a:focus {
+	color: var(--color-purple);
+}
+
+#navigation-menu li.active a::after {
+	content: '';
+	position: absolute;
+	right: 0;
+	bottom: -5px;
+	left: 0;
+	height: 1px;
+	background-color: var(--color-gray-darker);
+	transition: background-color 300ms ease;
+}
+
+#navigation-menu li.active a:hover::after,
+#navigation-menu li.active a:focus::after {
+	background-color: var(--color-purple);
+}
+
+#navigation-toggle {
+	--bars-gap: 5px;
+
+	display: flex;
+	flex-direction: column;
+	gap: var(--bars-gap);
+	border: none;
+	padding: 0;
+	background: none;
+	appearance: none;
+}
+
+#navigation-toggle span {
+	display: block;
+	width: 30px;
+	height: 4px;
+	border-radius: 5px;
+	background-color: var(--color-gray-darker);
+	transition: transform 300ms ease;
+}
+
+#navigation-toggle.active span:first-child {
+	transform: translateY(calc(var(--bars-gap) + 100%)) rotate(45deg); /* Push the bar down to the center (location of the 2nd bar), then rotate it */
+}
+
+#navigation-toggle.active span:nth-child(2) {
+	opacity: 0;
+}
+
+#navigation-toggle.active span:last-child {
+	transform: translateY(calc((var(--bars-gap) * -1) - 100%)) rotate(-45deg); /* Pull the bar up to the center (location of the 2nd bar), then rotate it */
+}
+
+@media all and (min-width: 1025px) {
+	#navigation-bar {
+		padding-block: 40px;
+	}
+
+	#navigation-bar .site-logo {
+		height: 54px;
+	}
+
+	#navigation-menu {
+		display: flex;
+		gap: 20px;
+	}
+
+	#navigation-toggle {
+		display: none;
+	}
+}
