@@ -34,6 +34,10 @@
 	--line-height-large: 1.5;
 	--line-height-medium: 1.333;
 	--line-height-small: 1.125;
+
+	/* Container Sizes */
+	--container-large: 1600px;
+	--container-medium: 1140px;
 }
 
 @media all and (min-width: 1025px) {
@@ -127,6 +131,21 @@ a:hover, a:focus {
 	h1, h2, h3 {
 		margin-bottom: 30px;
 	}
+}
+
+/*-----------------------------------
+- Containers
+-----------------------------------*/
+
+.container {
+	width: 100%;
+	max-width: var(--container-width, --container-medium);
+	margin: 0 auto;
+	padding-inline: 20px;
+}
+
+.container-large {
+	--container-width: var(--container-large);
 }
 
 /*-----------------------------------
