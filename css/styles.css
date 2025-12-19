@@ -644,3 +644,253 @@ details[open] summary h2 {
 		margin-top: 40px;
 	}
 }
+
+/*-----------------------------------
+- Flashcards Page
+-----------------------------------*/
+
+#flashcards-section .page-actions {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	max-width: 300px;
+	margin-inline: auto;
+}
+
+#flashcards-section .page-actions .button {
+	order: -1;
+}
+
+#flashcards-section .page-actions input[type="text"] {
+	width: 100%;
+}
+
+#flashcard-sets,
+#flashcards {
+	--columns: 1;
+	--gap: 20px;
+
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	gap: var(--gap);
+	list-style: none;
+	margin-top: 40px;
+	padding: 0;
+}
+
+#flashcard-sets .flashcard-set,
+#flashcards .flashcard {
+	width: calc((100% / var(--columns)) - ((var(--columns) - 1) * var(--gap) / var(--columns))); /* Calculate the width of the items based on how many columns should be displayed and the gap between them */
+}
+
+.flashcard-set,
+.flashcard dl {
+	align-content: center;
+	border-radius: 10px;
+	padding: 60px 20px 20px;
+	background-color: var(--color-white);
+	text-align: center;
+	box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.16);
+}
+
+.flashcard-set::before,
+.flashcard dt::before,
+.flashcard dd::before {
+	--size: 30px;
+
+	display: inline-block;
+	width: var(--size);
+	height: var(--size);
+	margin-bottom: 10px;
+	border-radius: 50%;
+	background-color: var(--color-purple);
+	font-family: 'Font Awesome 7 Free';
+	font-weight: 700;
+	color: var(--color-white);
+	line-height: var(--size);
+}
+
+.flashcard-set .set-actions,
+.flashcard .card-actions {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	display: flex;
+	gap: 20px;
+	text-align: left;
+	z-index: 100;
+}
+
+.flashcard-set .set-actions button,
+.flashcard .card-actions button {
+	border: none;
+	padding: 0;
+	background: none;
+	font-weight: 500;
+	color: var(--color-purple);
+	transition: color 300ms ease;
+	appearance: none;
+}
+
+.flashcard-set .set-actions button:hover,
+.flashcard-set .set-actions button:focus,
+.flashcard .card-actions button:hover,
+.flashcard .card-actions button:focus {
+	color: var(--color-purple-dark);
+}
+
+.flashcard-set {
+	position: relative;
+	min-height: 250px;
+}
+
+.flashcard-set::before {
+	content: '\f07b';
+}
+
+.flashcard-set h2 {
+	margin: 0;
+	font-size: var(--font-size-h3);
+}
+
+.flashcard {
+	position: relative;
+	min-height: 450px;
+	perspective: 1000px;
+}
+
+.flashcard dl,
+.flashcard dt,
+.flashcard dd,
+.flashcard .card-flip-button {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.flashcard dl {
+	transform-style: preserve-3d;
+	z-index: 10;
+}
+
+.flashcard dt,
+.flashcard dd {
+	display: inline-flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: inherit;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+
+.flashcard dt {
+	font-size: var(--font-size-h4);
+	font-weight: 700;
+	line-height: var(--line-height-medium);
+	letter-spacing: -0.025em;
+	transform: rotateY(0deg);
+}
+
+.flashcard dd {
+	font-weight: 500;
+	transform: rotateY(180deg);
+}
+
+.flashcard dt::before {
+	content: '\3f';
+}
+
+.flashcard dd::before {
+	content: '\f0eb';
+}
+
+.flashcard .card-flip-button {
+	border: none;
+	padding: 0;
+	background: none;
+	appearance: none;
+	z-index: 10;
+}
+
+.flashcard.flipped dl {
+	transform: rotateY(180deg);
+}
+
+@media all and (min-width: 481px) {
+	#flashcards-section .page-actions {
+		flex-direction: row;
+		align-items: center;
+		max-width: none;
+		margin-inline: 0;
+	}
+
+	#flashcards-section .page-actions .button {
+		order: initial;
+	}
+}
+
+@media all and (min-width: 769px) {
+	#flashcard-sets,
+	#flashcards {
+		--columns: 2;
+	}
+}
+
+@media all and (min-width: 1025px) {
+	#flashcards-section .section-header {
+		--gap: 30px;
+
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		gap: 30px;
+	}
+
+	#flashcards-section h1,
+	#flashcards-section .page-actions {
+		max-width: calc(50% - var(--gap) / 2);
+	}
+
+	#flashcards-section h1 {
+		margin: 0;
+		order: -2;
+	}
+
+	#flashcards-section .page-actions {
+		order: -1;
+	}
+
+	.flashcard-set,
+	.flashcard dl {
+		border-radius: 20px;
+		padding: 80px 30px 30px;
+	}
+
+	.flashcard-set::before,
+	.flashcard dt::before,
+	.flashcard dd::before {
+		--size: 50px;
+
+		font-size: var(--font-size-h5);
+	}
+
+	.flashcard-set {
+		min-height: 300px;
+	}
+
+	.flashcard {
+		min-height: 600px;
+	}
+}
+
+@media all and (min-width: 1367px) {
+	#flashcard-sets,
+	#flashcards {
+		--columns: 3;
+	}
+}
