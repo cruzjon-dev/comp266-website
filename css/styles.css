@@ -526,3 +526,47 @@ details[open] summary h2 {
 		display: none;
 	}
 }
+
+/*-----------------------------------
+- Site Footer
+-----------------------------------*/
+
+#site-footer {
+	margin-top: 40px;
+	padding-inline: 20px;
+	text-align: center;
+}
+
+#site-footer .container {
+	border-top: 1px solid rgba(0, 0, 0, 0.3);
+	padding: 20px 0;
+}
+
+#site-footer a {
+	font-weight: 500;
+	color: var(--color-gray-darker);
+	text-decoration: none;
+}
+
+#site-footer a:hover,
+#site-footer a:focus {
+	color: var(--color-purple);
+}
+
+#site-footer p {
+	margin-top: 20px;
+}
+
+@media all and (min-width: 1025px) {
+	#site-footer {
+		margin-top: 80px;
+	}
+
+	#site-footer .container {
+		padding-block: 40px;
+	}
+
+	#site-footer p {
+		margin-top: 30px;
+	}
+}
