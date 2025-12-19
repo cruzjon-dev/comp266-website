@@ -217,7 +217,7 @@ a:hover, a:focus {
 
 @media all and (min-width: 1025px) {
 	.button {
-		padding-inline: 15px;
+		padding-block: 15px;
 	}
 
 	.button-large {
