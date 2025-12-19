@@ -450,6 +450,7 @@ details[open] summary h2 {
 
 #navigation-menu a {
 	position: relative;
+	font-size: var(--font-size-h6);
 	font-weight: 500;
 	color: var(--color-gray-darker);
 	text-decoration: none;
@@ -520,7 +521,7 @@ details[open] summary h2 {
 
 	#navigation-menu {
 		display: flex;
-		gap: 20px;
+		gap: 20px 30px;
 	}
 
 	#navigation-toggle {
