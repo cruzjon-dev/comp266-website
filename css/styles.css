@@ -150,6 +150,14 @@ a:hover, a:focus {
 	--container-width: var(--container-large);
 }
 
+.buttons-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+	gap: 10px;
+}
+
 /*-----------------------------------
 - Buttons
 -----------------------------------*/
