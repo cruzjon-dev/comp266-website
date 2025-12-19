@@ -570,3 +570,27 @@ details[open] summary h2 {
 		margin-top: 30px;
 	}
 }
+
+/*-----------------------------------
+- Sections
+-----------------------------------*/
+
+.page-section {
+	margin-top: 50px;
+}
+
+.page-section .container > * + h2,
+.page-section .container > * + h3 {
+	margin-top: 30px;
+}
+
+@media all and (min-width: 1025px) {
+	.page-section {
+		margin-top: 100px;
+	}
+
+	.page-section .container > * + h2,
+	.page-section .container > * + h3 {
+		margin-top: 40px;
+	}
+}
