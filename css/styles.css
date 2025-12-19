@@ -138,8 +138,10 @@ a:hover, a:focus {
 -----------------------------------*/
 
 .container {
+	--container-width: var(--container-medium);
+
 	width: 100%;
-	max-width: var(--container-width, var(--container-medium));
+	max-width: var(--container-width);
 	margin: 0 auto;
 	padding-inline: 20px;
 }
