@@ -146,6 +146,10 @@ a:hover, a:focus {
 	overflow: hidden;
 }
 
+.hidden {
+	display: none;
+}
+
 /*-----------------------------------
 - Containers
 -----------------------------------*/
@@ -661,10 +665,6 @@ details[open] summary h2 {
 	order: -1;
 }
 
-#flashcards-section .page-actions input[type="text"] {
-	width: 100%;
-}
-
 #flashcard-sets,
 #flashcards {
 	--columns: 1;
@@ -818,6 +818,12 @@ details[open] summary h2 {
 
 .flashcard.flipped dl {
 	transform: rotateY(180deg);
+}
+
+.filter-no-results {
+	margin: 20px 0 40px;
+	font-weight: 700;
+	text-align: center;
 }
 
 @media all and (min-width: 481px) {

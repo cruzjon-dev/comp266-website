@@ -46,10 +46,8 @@
 						<h1>My Flashcards</h1>
 						<p>Below are your flashcard sets. Click into a set below to view or manage its corresponding flashcards.</p>
 						<div class="page-actions">
-							<form id="sets-search-form" method="get">
-								<label for="sets-search-keywords" class="sr-only">Search Flashcard Set</label>
-								<input id="sets-search-keywords" name="search" type="text" placeholder="Your Set Name">
-							</form>
+							<label for="sets-search-keywords" class="sr-only">Search for a Flashcard Set</label>
+							<input id="sets-search-keywords" class="filter-input" name="search" type="text" placeholder="Search keywords" data-target=".flashcard-set" data-target-text="h2" data-no-results=".filter-no-results">
 
 							<!-- This will open the dialog element when clicked once I work on the JS code of the website -->
 							<button class="button" type="button">Create Set</button>
@@ -103,6 +101,8 @@
 						</li>
 					</ul>
 
+					<p class="filter-no-results hidden" role="status" aria-live="polite">No results found.</p>
+
 					<!-- This dialog will function as intended once I work on the JS code of the website -->
 					<dialog id="edit-set-dialog" aria-labelledby="edit-set-dialog-title">
 						<button type="button" class="dialog-close-button">Close</button>
@@ -143,10 +143,8 @@
 					<div class="section-header">
 						<h1 id="flashcard-set-name">Set Name</h1>
 						<div class="page-actions">
-							<form id="cards-search-form" method="get">
-								<label class="sr-only" for="cards-search-keywords">Search for a Flashcard</label>
-								<input id="cards-search-keywords" name="search" type="text" placeholder="Search keywords">
-							</form>
+							<label class="sr-only" for="cards-search-keywords">Search for a Flashcard</label>
+							<input id="cards-search-keywords" class="filter-input" name="search" type="text" placeholder="Search keywords" data-target=".flashcard" data-target-text="dt, dd" data-no-results=".filter-no-results">
 
 							<!-- This will open the dialog element below when clicked once I work on the JS code of the website -->
 							<button type="button" class="button">Add Flashcard</button>
@@ -226,6 +224,8 @@
 						</li>
 					</ul>
 
+					<p class="filter-no-results hidden" role="status" aria-live="polite">No results found.</p>
+
 					<!-- This dialog will function as intended once I work on the JS code of the website -->
 					<dialog id="edit-flashcard-dialog" aria-labelledby="edit-flashcard-dialog-title">
 						<button type="button" class="dialog-close-button">Close</button>
@@ -292,5 +292,7 @@
 				<p><small>Copyright &copy; 2025</small></p>
 			</div>
 		</footer>
+
+		<script type="text/javascript" src="js/filter.js"></script>
 	</body>
 </html>
