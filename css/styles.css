@@ -820,6 +820,8 @@ details[open] summary h2 {
 	transform: rotateY(180deg);
 }
 
+#no-flashcards,
+#no-flashcard-sets,
 .filter-no-results {
 	margin: 20px 0 40px;
 	font-weight: 700;
