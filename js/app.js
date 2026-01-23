@@ -220,13 +220,14 @@ Author: Jonathan Cruz
 		if(id == 'add-set-form') {
 			event.preventDefault();
 
-			const formData = Object.fromEntries(new FormData(event.target)); // Convert submitted form data into an object
+			const form = event.target;
+			const formData = Object.fromEntries(new FormData(form)); // Convert submitted form data into an object
 			const { name } = formData;
 			const newFlashcardSet = new FlashcardSet(name);
 
 			app.addFlashcardSet(newFlashcardSet);
-
-			event.target.submit();
+			form.submit();
+			form.reset();
 		}
 	});
 })();
