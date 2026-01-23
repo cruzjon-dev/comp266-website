@@ -98,6 +98,9 @@ Author: Jonathan Cruz
 			const itemsList = document.getElementById('flashcard-sets');
 			const emptyMessage = document.getElementById('no-flashcard-sets');
 
+			// Empty out list of flashcard sets before rendering data
+			itemsList.replaceChildren();
+
 			// If there are flashcard sets to display
 			if(this.flashcardSets?.length && this.flashcardSets.length > 0) {
 				const template = document.getElementById('flashcard-set-template');
@@ -131,6 +134,9 @@ Author: Jonathan Cruz
 			const itemsList = document.getElementById('flashcards');
 			const emptyMessage = document.getElementById('no-flashcards');
 			const flashcardSet = this.flashcardSets.find((item) => item.id === this.viewedSetId); // Get the flashcard set whose id matches this.viewedSetId
+
+			// Empty out list of flashcards before rendering data
+			itemsList.replaceChildren();
 
 			// If there are flashcards to display
 			if(flashcardSet?.flashcards && flashcardSet.flashcards.length > 0) {
