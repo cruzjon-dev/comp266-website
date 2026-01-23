@@ -177,6 +177,18 @@ Author: Jonathan Cruz
 			this.saveData();
 			this.render();
 		}
+
+		removeFlashcardSet(id) {
+			const flashcardSet = this.flashcardSets.find((item) => item.id == id);
+
+			if(!flashcardSet) {
+				throw new Error('Flashcard Set could not be found.');
+			}
+
+			this.flashcardSets = this.flashcardSets.filter((item) => item.id != id);
+			this.saveData();
+			this.render();
+		}
 	}
 
 	/*-------------------------
@@ -211,6 +223,19 @@ Author: Jonathan Cruz
 				dialog.close();
 			}
 		}
+
+		// Click event handler for ".delete-set" elements
+		if(eventTargetClasses.includes('delete-set')) {
+			const button = event.target;
+			const { id } = button.dataset;
+			const form = document.getElementById('delete-set-form');
+			const input = form ? form.querySelector('input[name="set_id"]') : null;
+
+			// Check if the ID is not a falsy value (empty), the form and input exist. If so, set the ID as the input's value.
+			if(id && form && input) {
+				input.value = id;
+			}
+		}
 	});
 
 	document.body.addEventListener('submit', (event) => {
@@ -226,6 +251,19 @@ Author: Jonathan Cruz
 			const newFlashcardSet = new FlashcardSet(name);
 
 			app.addFlashcardSet(newFlashcardSet);
+			form.submit();
+			form.reset();
+		}
+
+		// Submit event handler for "#delete-set-form" form
+		if(id == 'delete-set-form') {
+			event.preventDefault();
+
+			const form = event.target;
+			const formData = Object.fromEntries(new FormData(form)); // Convert submitted form data into an object
+			const setId = formData?.set_id;
+
+			app.removeFlashcardSet(setId);
 			form.submit();
 			form.reset();
 		}
