@@ -170,7 +170,7 @@ Author: Jonathan Cruz
 
 		addFlashcardSet(flashcardSet) {
 			if(!(flashcardSet instanceof FlashcardSet)) {
-				console.error('Flashcard Set could not be added. Invalid instance provided.');
+				throw new Error('Flashcard Set could not be added. Invalid instance provided.');
 			}
 
 			this.flashcardSets.push(flashcardSet);
