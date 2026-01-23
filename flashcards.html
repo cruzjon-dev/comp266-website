@@ -50,7 +50,7 @@
 							<input id="sets-search-keywords" class="filter-input" name="search" type="text" placeholder="Search keywords" data-target=".flashcard-set" data-target-text="h2" data-no-results=".filter-no-results">
 
 							<!-- This will open the dialog element when clicked once I work on the JS code of the website -->
-							<button class="button" type="button">Create Set</button>
+							<button class="button dialog-open-button" type="button" data-dialog="#add-set-dialog">Create Set</button>
 						</div>
 					</div>
 
@@ -74,7 +74,7 @@
 					<ul id="flashcard-sets" class="hidden" aria-live="polite"></ul>
 					<div id="no-flashcard-sets" class="hidden" aria-live="polite">
 						<p class="">You currently do not have any sets. Please create a set by clicking the "Create Set" button.</p>
-						<p><button class="button add-set-button" type="button">Create Set</button></p>
+						<p><button class="button add-set-button dialog-open-button" type="button" data-dialog="#add-set-dialog">Create Set</button></p>
 					</div>
 
 					<p class="filter-no-results hidden" role="status" aria-live="polite">No results found.</p>
@@ -123,7 +123,7 @@
 							<input id="cards-search-keywords" class="filter-input" name="search" type="text" placeholder="Search keywords" data-target=".flashcard" data-target-text="dt, dd" data-no-results=".filter-no-results">
 
 							<!-- This will open the dialog element below when clicked once I work on the JS code of the website -->
-							<button type="button" class="button">Add Flashcard</button>
+							<button type="button" class="button dialog-open-button" data-dialog="#add-flashcard-dialog">Add Flashcard</button>
 						</div>
 					</div>
 
@@ -152,7 +152,7 @@
 					<ul id="flashcards" class="hidden" aria-live="polite"></ul>
 					<div id="no-flashcards" class="hidden" aria-live="polite">
 						<p class="">You currently do not have any flashcards in this set. Please add a flashcard by clicking the "Add Flashcard" button.</p>
-						<p><button class="button add-flashcard-button" type="button">Add Flashcard</button></p>
+						<p><button class="button add-flashcard-button dialog-open-button" type="button" data-dialog="#add-flashcard-dialog">Add Flashcard</button></p>
 					</div>
 
 					<p class="filter-no-results hidden" role="status" aria-live="polite">No results found.</p>
@@ -203,8 +203,8 @@
 					<h2></h2>
 					<!-- These buttons will function as indicated by their labels once I work on the JS code of the website. -->
 					<div class="set-actions">
-						<button type="button" aria-label="" class="edit-set">Edit</button>
-						<button type="button" aria-label="" class="delete-set">Delete</button>
+						<button type="button" aria-label="" class="edit-set dialog-open-button" data-dialog="#edit-set-dialog">Edit</button>
+						<button type="button" aria-label="" class="delete-set dialog-open-button" data-dialog="#delete-set-dialog">Delete</button>
 					</div>
 				</li>
 			</template>
@@ -223,8 +223,8 @@
 
 					<!-- This buttons will function as indicated by their labels once I work on the JS code of the website -->
 					<div class="card-actions">
-						<button type="button" aria-label="" class="edit-flashcard">Edit</button>
-						<button type="button" aria-label="" class="delete-flashcard">Delete</button>
+						<button type="button" aria-label="" class="edit-flashcard dialog-open-button" data-dialog="#edit-flashcard-dialog">Edit</button>
+						<button type="button" aria-label="" class="delete-flashcard dialog-open-button" data-dialog="#delete-flashcard-dialog">Delete</button>
 					</div>
 				</li>
 			</template>
