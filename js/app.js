@@ -166,4 +166,30 @@ Author: Jonathan Cruz
 	const app = new App();
 	app.loadData();
 	app.render();
+
+	document.body.addEventListener('click', (event) => {
+		const eventTargetClasses = [...event.target.classList]; // Convert class list into an array by spreading its contents into an array
+
+		// Click event handler for ".dialog-open-button" elements
+		if(eventTargetClasses.includes('dialog-open-button')) {
+			const button = event.target;
+			const dialog = button.dataset?.dialog ? document.querySelector(button.dataset.dialog) : null;
+
+			// Check if the dialog element exists and if it is actually a dialog element. If so, open the dialog element.
+			if(dialog && dialog.tagName == 'DIALOG') {
+				dialog.showModal();
+			}
+		}
+
+		// Click event handler for ".dialog-close-button" elements
+		if(eventTargetClasses.includes('dialog-close-button')) {
+			const button = event.target;
+			const dialog = button.closest('dialog');
+
+			// Check if the dialog element exists. If so, close the dialog element.
+			if(dialog) {
+				dialog.close();
+			}
+		}
+	})
 })();
