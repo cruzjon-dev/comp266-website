@@ -58,7 +58,11 @@ Author: Jonathan Cruz
 		// Fetches data from the local storage, parses it and stores it into the `flashcardSets` attribute.
 		loadData() {
 			const data = localStorage.getItem(this.#storageKey);
-			this.flashcardSets = JSON.parse(data);
+			const parsedData = JSON.parse(data);
+
+			if(parsedData) {
+				this.flashcardSets = parsedData;
+			}
 		}
 
 		// Saves the value of the `flashcardSets` attribute as a JSON string into the local storage
