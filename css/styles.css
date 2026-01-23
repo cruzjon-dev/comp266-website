@@ -312,7 +312,7 @@ dialog h2 {
 	font-size: var(--font-size-h3);
 }
 
-.dialog-close-button {
+.dialog-close-icon {
 	position: absolute;
 	top: 20px;
 	right: 20px;
@@ -330,7 +330,7 @@ dialog h2 {
 	transition: color 300ms ease;
 }
 
-.dialog-close-button::before {
+.dialog-close-icon::before {
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -341,8 +341,8 @@ dialog h2 {
 	transform: translate(-50%, -50%);
 }
 
-.dialog-close-button:hover,
-.dialog-close-button:focus {
+.dialog-close-icon:hover,
+.dialog-close-icon:focus {
 	color: var(--color-purple);
 }
 
