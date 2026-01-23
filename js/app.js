@@ -167,6 +167,16 @@ Author: Jonathan Cruz
 				emptyMessage.classList.remove('hidden');
 			}
 		}
+
+		addFlashcardSet(flashcardSet) {
+			if(!(flashcardSet instanceof FlashcardSet)) {
+				console.error('Flashcard Set could not be added. Invalid instance provided.');
+			}
+
+			this.flashcardSets.push(flashcardSet);
+			this.saveData();
+			this.render();
+		}
 	}
 
 	/*-------------------------
@@ -201,5 +211,22 @@ Author: Jonathan Cruz
 				dialog.close();
 			}
 		}
-	})
+	});
+
+	document.body.addEventListener('submit', (event) => {
+		const { id } = event.target;
+
+		// Submit event handler for "#add-set-form" form
+		if(id == 'add-set-form') {
+			event.preventDefault();
+
+			const formData = Object.fromEntries(new FormData(event.target)); // Convert submitted form data into an object
+			const { name } = formData;
+			const newFlashcardSet = new FlashcardSet(name);
+
+			app.addFlashcardSet(newFlashcardSet);
+
+			event.target.submit();
+		}
+	});
 })();
