@@ -178,6 +178,22 @@ Author: Jonathan Cruz
 			this.render();
 		}
 
+		replaceFlashcardSet(id, newFlashcardSet) {
+			const oldFlashcardSet = this.flashcardSets.find((item) => item.id == id);
+
+			if(!oldFlashcardSet) {
+				throw new Error('Flashcard Set could not be found.');
+			}
+
+			if(!(newFlashcardSet instanceof FlashcardSet)) {
+				throw new Error('Flashcard Set could not be updated. Invalid instance provided.');
+			}
+
+			this.flashcardSets = this.flashcardSets.map((item) => item.id == id ? newFlashcardSet : item);
+			this.saveData();
+			this.render();
+		}
+
 		removeFlashcardSet(id) {
 			const flashcardSet = this.flashcardSets.find((item) => item.id == id);
 
@@ -224,6 +240,23 @@ Author: Jonathan Cruz
 			}
 		}
 
+		// Click event handler for ".edit-set" elements
+		if(eventTargetClasses.includes('edit-set')) {
+			const button = event.target;
+			const { id } = button.dataset;
+			const form = document.getElementById('edit-set-form');
+			const flashcardSet = app.flashcardSets.find((item) => item.id == id);
+
+			// Check if the ID is not a falsy value (empty), the form and flashcard set exist. If so, pre-fill the form fields with the flashcard set's data.
+			if(id && form && flashcardSet) {
+				const nameInput = form.querySelector('input[name="name"]');
+				const idInput = form.querySelector('input[name="set_id"]');
+
+				nameInput.value = flashcardSet.name;
+				idInput.value = id;
+			}
+		}
+
 		// Click event handler for ".delete-set" elements
 		if(eventTargetClasses.includes('delete-set')) {
 			const button = event.target;
@@ -251,6 +284,26 @@ Author: Jonathan Cruz
 			const newFlashcardSet = new FlashcardSet(name);
 
 			app.addFlashcardSet(newFlashcardSet);
+			form.submit();
+			form.reset();
+		}
+
+		// Submit event handler for "#edit-set-form" form
+		if(id == 'edit-set-form') {
+			event.preventDefault();
+
+			const form = event.target;
+			const formData = Object.fromEntries(new FormData(form)); // Convert submitted form data into an object
+			const setId = formData?.set_id;
+			const { name } = formData;
+			const oldFlashcardSet = app.flashcardSets.find((item) => item.id == setId);
+			const newFlashcardSet = new FlashcardSet(name);
+
+			// Retain the id and dateCreated fields of the old flashcard set
+			newFlashcardSet.id = oldFlashcardSet.id;
+			newFlashcardSet.dateCreated = oldFlashcardSet.dateCreated;
+
+			app.replaceFlashcardSet(setId, newFlashcardSet);
 			form.submit();
 			form.reset();
 		}
