@@ -17,7 +17,7 @@ Modifications:
 document.body.addEventListener('input', function(event) {
 	const eventTargetClasses = [...event.target.classList] // Convert the class list into an array by spreading its content into an array
 
-	if(eventTargetClasses) {
+	if(eventTargetClasses.includes('filter-input')) {
 		const input = event.target; // The search/filter input field
 		const filterValue = input.value.toLowerCase(); // The search/filter keyword(s)
 		const filterTarget = document.querySelectorAll(input.dataset?.target); // The elements to be filtered / elements whose visibility will be toggled
