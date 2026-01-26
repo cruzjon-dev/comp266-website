@@ -28,6 +28,14 @@ Author: Jonathan Cruz
 			this.dateCreated = today;
 			this.dateModified = today;
 		}
+
+		addFlashcard(flashcard) {
+			if(!(flashcard instanceof Flashcard)) {
+				throw new Error('Flashcard could not be added. Invalid instance provided.');
+			}
+
+			this.flashcards.push(flashcard);
+		}
 	}
 
 	// Represents a flashcard
@@ -407,6 +415,25 @@ Author: Jonathan Cruz
 			app.removeFlashcardSet(setId);
 			form.submit();
 			form.reset();
+		}
+
+		// Submit event handler for "#add-card-form" form
+		if(id == 'add-card-form') {
+			event.preventDefault();
+
+			const form = event.target;
+			const formData = Object.fromEntries(new FormData(form)); // Convert submitted form data into an object
+			const { question, answer, tags } = formData;
+			const flashcardSet = app.flashcardSets.find((item) => item.id == app.viewedSetId);
+			const newFlashcard = new Flashcard(question, answer, tags);
+
+			if(flashcardSet) {
+				flashcardSet.addFlashcard(newFlashcard);
+				app.saveData();
+				app.render();
+				form.submit();
+				form.reset();
+			}
 		}
 	});
 })();
