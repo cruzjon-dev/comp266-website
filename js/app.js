@@ -89,8 +89,14 @@ Author: Jonathan Cruz
 			const section = document.getElementById('flashcards-section');
 			const viewTemplate = document.getElementById('flashcards-view-template');
 			const viewTemplateContents = document.importNode(viewTemplate.content, true);
+			const flashcardSet = app.flashcardSets.find((item) => item.id == app.viewedSetId); // Retrieve flashcard set whose ID matches app.viewedSetId
 
-			section.replaceChildren(viewTemplateContents);
+			// If a matching flashcard set is found
+			if(flashcardSet) {
+				const h1 = viewTemplateContents.getElementById('flashcard-set-name');
+				h1.textContent = flashcardSet.name;
+				section.replaceChildren(viewTemplateContents);
+			}
 		}
 
 		// Renders the sets to the page
@@ -111,19 +117,26 @@ Author: Jonathan Cruz
 					const h2 = templateContents.querySelector('h2');
 					const editButton = templateContents.querySelector('.edit-set');
 					const deleteButton = templateContents.querySelector('.delete-set');
+					const viewButton = templateContents.querySelector('.view-set-button');
 
+					// Fill in the template's elements with the set's data
 					h2.textContent = flashcardSet.name;
 					editButton.dataset.id = flashcardSet.id;
 					editButton.setAttribute('aria-label', 'Edit "' + flashcardSet.name + '"');
 					deleteButton.dataset.id = flashcardSet.id;
 					deleteButton.setAttribute('aria-label', 'Delete "' + flashcardSet.name + '"');
+					viewButton.dataset.id = flashcardSet.id;
+
+					// Append the template contents to the list of sets
 					itemsList.appendChild(templateContents);
 				}
 
+				// Display the list and hide the empty message
 				itemsList.classList.remove('hidden');
 				emptyMessage.classList.add('hidden');
 			// If there are no flashcard sets to display
 			} else {
+				// Display the empty message and hide the list of sets
 				itemsList.classList.add('hidden');
 				emptyMessage.classList.remove('hidden');
 			}
@@ -267,6 +280,21 @@ Author: Jonathan Cruz
 			// Check if the ID is not a falsy value (empty), the form and input exist. If so, set the ID as the input's value.
 			if(id && form && input) {
 				input.value = id;
+			}
+		}
+
+		// Click event handler for ".view-set-button" elements
+		if(eventTargetClasses.includes('view-set-button')) {
+			const button = event.target;
+			const { id } = button.dataset;
+			const flashcardSet = app.flashcardSets.find((item) => item.id == id);
+
+			// Check if the ID is not a falsy value and there is a matching flashcard set
+			if(id && flashcardSet) {
+				// Set the app to "Individual Set" view and render the view
+				app.viewedSetId = id;
+				app.isSetView = false;
+				app.render();
 			}
 		}
 	});

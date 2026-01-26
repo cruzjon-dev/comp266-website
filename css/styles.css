@@ -711,6 +711,18 @@ details[open] summary h2 {
 	line-height: var(--size);
 }
 
+.flashcard-set .view-set-button,
+.flashcard dl,
+.flashcard dt,
+.flashcard dd,
+.flashcard .card-flip-button {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
 .flashcard-set .set-actions,
 .flashcard .card-actions {
 	position: absolute;
@@ -754,21 +766,23 @@ details[open] summary h2 {
 	font-size: var(--font-size-h3);
 }
 
+.flashcard-set .view-set-button {
+	border-radius: inherit;
+	border: 5px solid transparent;
+	background: none;
+	appearance: none;
+	z-index: 1;
+	transition: border-color 300ms ease;
+}
+
+.flashcard-set .view-set-button:hover {
+	border-color: var(--color-purple-light);
+}
+
 .flashcard {
 	position: relative;
 	min-height: 450px;
 	perspective: 1000px;
-}
-
-.flashcard dl,
-.flashcard dt,
-.flashcard dd,
-.flashcard .card-flip-button {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
 }
 
 .flashcard dl {
