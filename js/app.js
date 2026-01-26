@@ -255,8 +255,6 @@ Author: Jonathan Cruz
 			}
 
 			this.flashcardSets.push(flashcardSet);
-			this.saveData();
-			this.render();
 		}
 
 		replaceFlashcardSet(id, newFlashcardSet) {
@@ -271,8 +269,6 @@ Author: Jonathan Cruz
 			}
 
 			this.flashcardSets = this.flashcardSets.map((item) => item.id == id ? newFlashcardSet : item);
-			this.saveData();
-			this.render();
 		}
 
 		removeFlashcardSet(id) {
@@ -283,8 +279,6 @@ Author: Jonathan Cruz
 			}
 
 			this.flashcardSets = this.flashcardSets.filter((item) => item.id != id);
-			this.saveData();
-			this.render();
 		}
 	}
 
@@ -380,6 +374,8 @@ Author: Jonathan Cruz
 			const newFlashcardSet = new FlashcardSet(name);
 
 			app.addFlashcardSet(newFlashcardSet);
+			app.saveData();
+			app.render();
 			form.submit();
 			form.reset();
 		}
@@ -400,6 +396,8 @@ Author: Jonathan Cruz
 			newFlashcardSet.dateCreated = oldFlashcardSet.dateCreated;
 
 			app.replaceFlashcardSet(setId, newFlashcardSet);
+			app.saveData();
+			app.render();
 			form.submit();
 			form.reset();
 		}
@@ -413,6 +411,8 @@ Author: Jonathan Cruz
 			const setId = formData?.set_id;
 
 			app.removeFlashcardSet(setId);
+			app.saveData();
+			app.render();
 			form.submit();
 			form.reset();
 		}
