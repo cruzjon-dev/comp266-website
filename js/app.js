@@ -36,6 +36,16 @@ Author: Jonathan Cruz
 
 			this.flashcards.push(flashcard);
 		}
+
+		removeFlashcard(id) {
+			const flashcard = this.flashcards.find((item) => item.id == id);
+
+			if(!flashcard) {
+				throw new Error('Flashcard could not be found.');
+			}
+
+			this.flashcards = this.flashcards.filter((item) => item.id != id);
+		}
 	}
 
 	// Represents a flashcard
@@ -359,6 +369,19 @@ Author: Jonathan Cruz
 				app.render();
 			}
 		}
+
+		// Click event handler for ".delete-flashcard" elements
+		if(eventTargetClasses.includes('delete-flashcard')) {
+			const button = event.target;
+			const { id } = button.dataset;
+			const form = document.getElementById('delete-card-form');
+			const input = form ? form.querySelector('input[name="flashcard_id"]') : null;
+
+			// Check if the ID is not a falsy value (empty), the form and input exist. If so, set the ID as the input's value.
+			if(id && form && input) {
+				input.value = id;
+			}
+		}
 	});
 
 	document.body.addEventListener('submit', (event) => {
@@ -429,6 +452,24 @@ Author: Jonathan Cruz
 
 			if(flashcardSet) {
 				flashcardSet.addFlashcard(newFlashcard);
+				app.saveData();
+				app.render();
+				form.submit();
+				form.reset();
+			}
+		}
+
+		// Submit event handler for "#delete-card-form" form
+		if(id == 'delete-card-form') {
+			event.preventDefault();
+
+			const form = event.target;
+			const formData = Object.fromEntries(new FormData(form)); // Convert submitted form data into an object
+			const flashcardSet = app.flashcardSets.find((item) => item.id == app.viewedSetId);
+			const flashcardId = formData?.flashcard_id;
+
+			if(flashcardSet) {
+				flashcardSet.removeFlashcard(flashcardId);
 				app.saveData();
 				app.render();
 				form.submit();
