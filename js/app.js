@@ -55,13 +55,73 @@ Author: Jonathan Cruz
 			this.viewedSetId = null; // The ID of the displayed FlashcardSet
 		}
 
-		// Fetches data from the local storage, parses it and stores it into the `flashcardSets` attribute.
+		// Fetches data from the local storage, parses it and stores it into the `flashcardSets` attribute. If the data is malformed, the data will not be loaded.
 		loadData() {
 			const data = localStorage.getItem(this.#storageKey);
 			const parsedData = JSON.parse(data);
+			const tempSets = [];
+			let isValid = true;
 
-			if(parsedData) {
-				this.flashcardSets = parsedData;
+			// Check if the parsed data is an array. If it is not, exit out of the method.
+			if(!Array.isArray(parsedData)) {
+				return;
+			}
+
+			// Iterate through the parsed data and attempt to create instances of FlashcardSet and Flashcard from the data.
+			setLoop: for(const item of parsedData) { // Label the loop as "setLoop"
+				const flashcardSet = new FlashcardSet();
+				const setAttributes = Object.keys(flashcardSet); // Construct an array of expected attributes from the keys of the FlashcardSet object
+				const tempCards = [];
+
+				// Check if the array item is an object and if its `flashcards` property is an array. If neither of the conditions is true, flag data as invalid and break out of the loop.
+				if(typeof(item) != 'object' || !Array.isArray(item?.flashcards)) {
+					isValid = false;
+					break;
+				}
+
+				// Iterate through array of expected flashcard set attributes
+				for(const key of setAttributes) {
+					// Check if the attribute is a property of the object. If it is not, break out of the "setLoop" loop and flag data as invalid.
+					if(!(key in item)) {
+						isValid = false;
+						break setLoop;
+					}
+
+					flashcardSet[key] = item[key]; // Copy the attribute
+				}
+
+				// Iterate through array items of `flashcards` property
+				for(const card of flashcardSet.flashcards) {
+					const flashcard = new Flashcard();
+					const cardAttributes = Object.keys(flashcard); // Construct an array of expected attributes from the keys of the Flashcard object
+
+					// Check if the item is an object. If it is not, flag data as invalid and break out of the "setLoop" loop.
+					if(typeof(item) != 'object') {
+						isValid = false;
+						break setLoop;
+					}
+
+					// Iterate through array of expected flashcard attributes
+					for(const key of cardAttributes) {
+						// Check if the attribute is a property of the object. If it is not, break out of the loop and flag data as invalid.
+						if(!(key in card)) {
+							isValid = false;
+							break setLoop;
+						}
+
+						flashcard[key] = card[key]; // Copy the attribute
+					}
+
+					tempCards.push(flashcard); // Append the Flashcard object to the temporary array of flashcards
+				}
+
+				flashcardSet.flashcards = [...tempCards]; // Overwrite `flashcards` property with the array of Flashcard objects by spreading the contents of the tempCards array
+				tempSets.push(flashcardSet); // Append the FlashcardSet object to the temporary array of sets
+			}
+
+			// If the data is valid, store the contents of tempSets array which is comprised of the created instances of FlashcardSet and Flashcard objects as the value of the `flashcardSets` attribute
+			if(isValid) {
+				this.flashcardSets = [...tempSets];
 			}
 		}
 
