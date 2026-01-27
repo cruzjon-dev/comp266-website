@@ -418,6 +418,25 @@ Author: Jonathan Cruz
 				input.value = id;
 			}
 		}
+
+		// Click event handler for ".card-flip-button" elements
+		if(eventTargetClasses.includes('card-flip-button')) {
+			const button = event.target;
+			const flashcard = button.closest('.flashcard');
+
+			// Check if the flashcard exists. If so, toggle its "flipped" CSS class.
+			if(flashcard) {
+				const flashcardClasses = [...flashcard.classList];
+
+				if(flashcardClasses.includes('flipped')) {
+					button.setAttribute('aria-pressed', false);
+				} else {
+					button.setAttribute('aria-pressed', true);
+				}
+
+				flashcard.classList.toggle('flipped');
+			}
+		}
 	});
 
 	document.body.addEventListener('submit', (event) => {
@@ -535,6 +554,32 @@ Author: Jonathan Cruz
 				app.render();
 				form.submit();
 				form.reset();
+			}
+		}
+	});
+
+	document.body.addEventListener('transitionstart', (event) => {
+		const eventTargetClasses = [...event.target.classList]; // Convert class list into an array by spreading its contents into an array
+
+		// Transition start event handler for ".flashcard" elements
+		if(eventTargetClasses.includes('flashcard-contents')) {
+			const flashcard = event.target.closest('.flashcard');
+
+			if(flashcard) {
+				flashcard.classList.add('transitioning');
+			}
+		}
+	});
+
+	document.body.addEventListener('transitionend', (event) => {
+		const eventTargetClasses = [...event.target.classList]; // Convert class list into an array by spreading its contents into an array
+
+		// Transition end event handler for ".flashcard" elements
+		if(eventTargetClasses.includes('flashcard-contents')) {
+			const flashcard = event.target.closest('.flashcard');
+
+			if(flashcard) {
+				flashcard.classList.remove('transitioning');
 			}
 		}
 	});

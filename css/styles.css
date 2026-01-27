@@ -796,6 +796,7 @@ details[open] summary h2 {
 
 .flashcard dl {
 	transform-style: preserve-3d;
+	transition: transform 300ms ease;
 	z-index: 10;
 }
 
@@ -829,6 +830,11 @@ details[open] summary h2 {
 
 .flashcard dd::before {
 	content: '\f0eb';
+}
+
+.flashcard.transitioning .card-actions,
+.flashcard.transitioning .card-flip-button {
+	opacity: 0;
 }
 
 .flashcard.flipped dl {
