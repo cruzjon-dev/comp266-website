@@ -711,6 +711,7 @@ details[open] summary h2 {
 	border-radius: 50%;
 	background-color: var(--color-purple);
 	font-family: 'Font Awesome 7 Free';
+	font-size: var(--font-size-p);
 	font-weight: 700;
 	color: var(--color-white);
 	line-height: var(--size);
