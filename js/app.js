@@ -253,8 +253,8 @@ Author: Jonathan Cruz
 					const editButton = templateContents.querySelector('.edit-flashcard');
 					const deleteButton = templateContents.querySelector('.delete-flashcard');
 
-					templateContents.querySelector('dt').textContent = flashcard.question;
-					templateContents.querySelector('dd').textContent = flashcard.answer;
+					templateContents.querySelector('.flashcard-question').textContent = flashcard.question;
+					templateContents.querySelector('.flashcard-answer .overflow-container').textContent = flashcard.answer; // Set text inside overflow container which displays a scrollbar if the content is too long
 					editButton.dataset.id = flashcard.id;
 					editButton.setAttribute('aria-label', 'Edit "' + flashcard.question + '"');
 					deleteButton.dataset.id = flashcard.id;
@@ -395,12 +395,12 @@ Author: Jonathan Cruz
 			// Check if the ID is not a falsy value (empty), the form and flashcard exist. If so, pre-fill the form fields with the flashcard's data.
 			if(id && form && flashcard) {
 				const questionInput = form.querySelector('input[name="question"]');
-				const answerInput = form.querySelector('input[name="answer"]');
+				const answerTextarea = form.querySelector('textarea[name="answer"]');
 				const tagsInput = form.querySelector('input[name="tags"]');
 				const idInput = form.querySelector('input[name="flashcard_id"]');
 
 				questionInput.value = flashcard.question;
-				answerInput.value = flashcard.answer;
+				answerTextarea.value = flashcard.answer;
 				tagsInput.value = flashcard.tags;
 				idInput.value = id;
 			}
@@ -419,22 +419,23 @@ Author: Jonathan Cruz
 			}
 		}
 
-		// Click event handler for ".card-flip-button" elements
-		if(eventTargetClasses.includes('card-flip-button')) {
-			const button = event.target;
-			const flashcard = button.closest('.flashcard');
+		// Click event handler for ".flashcard-question" and ".flashcard-answer" elements
+		if(eventTargetClasses.includes('flashcard-question') || eventTargetClasses.includes('flashcard-answer')) {
+			const flashcard = event.target.closest('.flashcard');
+			flashcard.classList.toggle('flipped'); // Toggle the flashcard's "flipped" CSS class
+		}
 
-			// Check if the flashcard exists. If so, toggle its "flipped" CSS class.
-			if(flashcard) {
-				const flashcardClasses = [...flashcard.classList];
+		// Click event handler for ".overflow-container" elements
+		if(eventTargetClasses.includes('overflow-container')) {
+			const flashcardAnswer = event.target.closest('.flashcard-answer');
 
-				if(flashcardClasses.includes('flipped')) {
-					button.setAttribute('aria-pressed', false);
-				} else {
-					button.setAttribute('aria-pressed', true);
-				}
+			// If the element is contained inside a ".flashcard-answer" element, pass/trigger the click event on that element
+			if(flashcardAnswer) {
+				const clickEvent = new Event('click', {
+					bubbles: true // Must be set to true since the click event handler of the ".flashcard-answer" is handled and delegated by document body
+				});
 
-				flashcard.classList.toggle('flipped');
+				flashcardAnswer.dispatchEvent(clickEvent);
 			}
 		}
 	});

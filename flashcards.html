@@ -217,13 +217,13 @@
 			</template>
 
 			<template id="flashcard-template">
-				<li class="flashcard">
+				<li class="flashcard" role="button" aria-label="Click the flashcard to flip it.">
 					<dl class="flashcard-contents">
-						<dt></dt>
-						<dd aria-hidden="true"></dd>
+						<dt class="flashcard-question"></dt>
+						<dd class="flashcard-answer" aria-hidden="true">
+							<div class="overflow-container"></div>
+						</dd>
 					</dl>
-
-					<button class="card-flip-button" aria-label="Show Answer" aria-pressed="false"></button>
 
 					<div class="card-actions">
 						<button type="button" aria-label="" class="edit-flashcard dialog-open-button" data-dialog="#edit-flashcard-dialog">Edit</button>

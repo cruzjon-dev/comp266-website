@@ -690,7 +690,7 @@ details[open] summary h2 {
 }
 
 .flashcard-set,
-.flashcard dl {
+.flashcard .flashcard-contents {
 	align-content: center;
 	border-radius: var(--border-radius);
 	padding: 60px 20px 20px;
@@ -700,8 +700,8 @@ details[open] summary h2 {
 }
 
 .flashcard-set::before,
-.flashcard dt::before,
-.flashcard dd::before {
+.flashcard .flashcard-question::before,
+.flashcard .flashcard-answer::before {
 	--size: 30px;
 
 	display: inline-block;
@@ -718,10 +718,9 @@ details[open] summary h2 {
 }
 
 .flashcard-set .view-set-button,
-.flashcard dl,
-.flashcard dt,
-.flashcard dd,
-.flashcard .card-flip-button {
+.flashcard .flashcard-contents,
+.flashcard .flashcard-question,
+.flashcard .flashcard-answer {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -759,19 +758,19 @@ details[open] summary h2 {
 }
 
 .flashcard-set .view-set-button,
-.flashcard .card-flip-button {
+.flashcard .flashcard-question,
+.flashcard .flashcard-answer {
 	border-radius: var(--border-radius);
 	border: 5px solid transparent;
-	background: none;
-	appearance: none;
-	z-index: 10;
 	transition: border-color 300ms ease;
 }
 
 .flashcard-set .view-set-button:hover,
 .flashcard-set .view-set-button:focus,
-.flashcard .card-flip-button:hover,
-.flashcard .card-flip-button:focus {
+.flashcard .flashcard-question:hover,
+.flashcard .flashcard-question:focus,
+.flashcard .flashcard-answer:hover,
+.flashcard .flashcard-answer:focus {
 	border-color: var(--color-purple-light);
 }
 
@@ -789,20 +788,26 @@ details[open] summary h2 {
 	font-size: var(--font-size-h3);
 }
 
+.flashcard-set .view-set-button {
+	background: none;
+	appearance: none;
+	z-index: 10;
+}
+
 .flashcard {
 	position: relative;
 	min-height: 450px;
 	perspective: 3000px;
 }
 
-.flashcard dl {
+.flashcard .flashcard-contents {
 	transform-style: preserve-3d;
 	transition: transform 300ms ease;
 	z-index: 10;
 }
 
-.flashcard dt,
-.flashcard dd {
+.flashcard .flashcard-question,
+.flashcard .flashcard-answer {
 	display: inline-flex;
 	flex-direction: column;
 	align-items: center;
@@ -810,9 +815,10 @@ details[open] summary h2 {
 	padding: inherit;
 	-webkit-backface-visibility: hidden;
 	backface-visibility: hidden;
+	cursor: pointer;
 }
 
-.flashcard dt {
+.flashcard .flashcard-question {
 	font-size: var(--font-size-h4);
 	font-weight: 700;
 	line-height: var(--line-height-medium);
@@ -820,25 +826,30 @@ details[open] summary h2 {
 	transform: rotateY(0deg);
 }
 
-.flashcard dd {
+.flashcard .flashcard-answer {
 	font-weight: 500;
 	transform: rotateY(180deg);
 }
 
-.flashcard dt::before {
+.flashcard .overflow-container {
+	white-space: pre-wrap;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.flashcard .flashcard-question::before {
 	content: '\3f';
 }
 
-.flashcard dd::before {
+.flashcard .flashcard-answer::before {
 	content: '\f0eb';
 }
 
-.flashcard.transitioning .card-actions,
-.flashcard.transitioning .card-flip-button {
+.flashcard.transitioning .card-actions {
 	opacity: 0;
 }
 
-.flashcard.flipped dl {
+.flashcard.flipped .flashcard-contents {
 	transform: rotateY(180deg);
 }
 
@@ -901,13 +912,13 @@ details[open] summary h2 {
 	}
 
 	.flashcard-set,
-	.flashcard dl {
+	.flashcard .flashcard-contents {
 		padding: 80px 30px 30px;
 	}
 
 	.flashcard-set::before,
-	.flashcard dt::before,
-	.flashcard dd::before {
+	.flashcard .flashcard-question::before,
+	.flashcard .flashcard-answer::before {
 		--size: 50px;
 
 		font-size: var(--font-size-h5);
