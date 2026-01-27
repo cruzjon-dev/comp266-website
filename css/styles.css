@@ -685,9 +685,14 @@ details[open] summary h2 {
 }
 
 .flashcard-set,
+.flashcard {
+	--border-radius: 10px;
+}
+
+.flashcard-set,
 .flashcard dl {
 	align-content: center;
-	border-radius: 10px;
+	border-radius: var(--border-radius);
 	padding: 60px 20px 20px;
 	background-color: var(--color-white);
 	text-align: center;
@@ -752,6 +757,23 @@ details[open] summary h2 {
 	color: var(--color-purple-dark);
 }
 
+.flashcard-set .view-set-button,
+.flashcard .card-flip-button {
+	border-radius: var(--border-radius);
+	border: 5px solid transparent;
+	background: none;
+	appearance: none;
+	z-index: 10;
+	transition: border-color 300ms ease;
+}
+
+.flashcard-set .view-set-button:hover,
+.flashcard-set .view-set-button:focus,
+.flashcard .card-flip-button:hover,
+.flashcard .card-flip-button:focus {
+	border-color: var(--color-purple-light);
+}
+
 .flashcard-set {
 	position: relative;
 	min-height: 250px;
@@ -764,19 +786,6 @@ details[open] summary h2 {
 .flashcard-set h2 {
 	margin: 0;
 	font-size: var(--font-size-h3);
-}
-
-.flashcard-set .view-set-button {
-	border-radius: inherit;
-	border: 5px solid transparent;
-	background: none;
-	appearance: none;
-	z-index: 1;
-	transition: border-color 300ms ease;
-}
-
-.flashcard-set .view-set-button:hover {
-	border-color: var(--color-purple-light);
 }
 
 .flashcard {
@@ -820,14 +829,6 @@ details[open] summary h2 {
 
 .flashcard dd::before {
 	content: '\f0eb';
-}
-
-.flashcard .card-flip-button {
-	border: none;
-	padding: 0;
-	background: none;
-	appearance: none;
-	z-index: 10;
 }
 
 .flashcard.flipped dl {
@@ -888,8 +889,12 @@ details[open] summary h2 {
 	}
 
 	.flashcard-set,
+	.flashcard {
+		--border-radius: 20px;
+	}
+
+	.flashcard-set,
 	.flashcard dl {
-		border-radius: 20px;
 		padding: 80px 30px 30px;
 	}
 
