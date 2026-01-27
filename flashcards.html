@@ -174,12 +174,17 @@
 						<form id="edit-card-form" method="dialog">
 							<div class="form-control">
 								<label for="edit-card-question">Question/Term</label>
-								<input id="edit-card-question" name="question" type="text" placeholder="What is FlashStash?" value="Flashcard #1 Question" required autofocus>
+								<input id="edit-card-question" name="question" type="text" placeholder="What is FlashStash?" value="" required autofocus>
 							</div>
 
 							<div class="form-control">
 								<label for="edit-card-answer">Answer/Definition</label>
-								<input id="edit-card-answer" name="answer" type="text" placeholder="FlashStash is a study platform that allows users to manage their own flashcards." value="Answer to Flashcard #1 Question" required>
+								<input id="edit-card-answer" name="answer" type="text" placeholder="FlashStash is a study platform that allows users to manage their own flashcards." value="" required>
+							</div>
+
+							<div class="form-control">
+								<label for="edit-card-tags">Tags</label>
+								<input id="edit-card-tags" name="tags" type="text" placeholder="Unit 1, Introduction" value="">
 							</div>
 
 							<input type="hidden" name="flashcard_id" value="">
