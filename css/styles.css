@@ -791,7 +791,7 @@ details[open] summary h2 {
 .flashcard {
 	position: relative;
 	min-height: 450px;
-	perspective: 1000px;
+	perspective: 3000px;
 }
 
 .flashcard dl {
