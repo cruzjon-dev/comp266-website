@@ -37,6 +37,20 @@ Author: Jonathan Cruz
 			this.flashcards.push(flashcard);
 		}
 
+		replaceFlashcard(id, newFlashcard) {
+			const oldFlashcard = this.flashcards.find((item) => item.id == id);
+
+			if(!oldFlashcard) {
+				throw new Error('Flashcard could not be found.');
+			}
+
+			if(!(newFlashcard instanceof Flashcard)) {
+				throw new Error('Flashcard could not be updated. Invalid instance provided.');
+			}
+
+			this.flashcards = this.flashcards.map((item) => item.id == id ? newFlashcard : item);
+		}
+
 		removeFlashcard(id) {
 			const flashcard = this.flashcards.find((item) => item.id == id);
 
@@ -370,6 +384,28 @@ Author: Jonathan Cruz
 			}
 		}
 
+		// Click event handler for ".edit-flashcard" elements
+		if(eventTargetClasses.includes('edit-flashcard')) {
+			const button = event.target;
+			const { id } = button.dataset;
+			const form = document.getElementById('edit-card-form');
+			const flashcardSet = app.flashcardSets.find((item) => item.id == app.viewedSetId);
+			const flashcard = flashcardSet?.flashcards ? flashcardSet?.flashcards.find((item) => item.id == id) : null;
+
+			// Check if the ID is not a falsy value (empty), the form and flashcard exist. If so, pre-fill the form fields with the flashcard's data.
+			if(id && form && flashcard) {
+				const questionInput = form.querySelector('input[name="question"]');
+				const answerInput = form.querySelector('input[name="answer"]');
+				const tagsInput = form.querySelector('input[name="tags"]');
+				const idInput = form.querySelector('input[name="flashcard_id"]');
+
+				questionInput.value = flashcard.question;
+				answerInput.value = flashcard.answer;
+				tagsInput.value = flashcard.tags;
+				idInput.value = id;
+			}
+		}
+
 		// Click event handler for ".delete-flashcard" elements
 		if(eventTargetClasses.includes('delete-flashcard')) {
 			const button = event.target;
@@ -452,6 +488,31 @@ Author: Jonathan Cruz
 
 			if(flashcardSet) {
 				flashcardSet.addFlashcard(newFlashcard);
+				app.saveData();
+				app.render();
+				form.submit();
+				form.reset();
+			}
+		}
+
+		// Submit event handler for "#edit-card-form" form
+		if(id == 'edit-card-form') {
+			event.preventDefault();
+
+			const form = event.target;
+			const formData = Object.fromEntries(new FormData(form)); // Convert submitted form data into an object
+			const flashcardId = formData?.flashcard_id;
+			const { question, answer, tags } = formData;
+			const flashcardSet = app.flashcardSets.find((item) => item.id == app.viewedSetId);
+			const oldFlashcard = flashcardSet?.flashcards ? flashcardSet.flashcards.find((item) => item.id == flashcardId) : null;
+			const newFlashcard = new Flashcard(question, answer, tags);
+
+			// Retain the id and dateCreated fields of the old flashcard
+			newFlashcard.id = oldFlashcard.id;
+			newFlashcard.dateCreated = oldFlashcard.dateCreated;
+
+			if(flashcardSet) {
+				flashcardSet.replaceFlashcard(flashcardId, newFlashcard);
 				app.saveData();
 				app.render();
 				form.submit();
