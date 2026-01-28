@@ -456,7 +456,11 @@ Author: Jonathan Cruz
 		// Click event handler for ".flashcard-question" and ".flashcard-answer" elements
 		if(eventTargetClasses.includes('flashcard-question') || eventTargetClasses.includes('flashcard-answer')) {
 			const flashcard = event.target.closest('.flashcard');
-			flashcard.classList.toggle('flipped'); // Toggle the flashcard's "flipped" CSS class
+
+			// Check if the element is nested under a '.flashcard" element
+			if(flashcard) {
+				flashcard.classList.toggle('flipped'); // Toggle the flashcard's "flipped" CSS class
+			}
 		}
 
 		// Click event handler for ".overflow-container" elements
