@@ -9,7 +9,7 @@ Author: Jonathan Cruz
 
 	// Generates an ID based on the current time (milliseconds) and a random number
 	function generateID() {
-		const randomNumber = Math.floor(Math.random() * 1000); // A random number between 0 to 1000
+		const randomNumber = Math.floor(Math.random() * 1000); // A random number between 0 to 1000 (reduces chance of generating a duplicate ID)
 		return Date.now() + "-" + randomNumber;
 	}
 
@@ -23,7 +23,7 @@ Author: Jonathan Cruz
 				bubbles: true // Must be set to true since the "input" event is handled and delegated by the document body
 			});
 
-			filterInputs.forEach((el) => el.dispatchEvent(inputEvent));
+			filterInputs.forEach((el) => el.dispatchEvent(inputEvent)); // Dispatch the event on every element
 		}
 	}
 
@@ -33,6 +33,7 @@ Author: Jonathan Cruz
 
 	// Represents a set of flashcards
 	class FlashcardSet {
+		// The constructor method. Initializes the object's attributes.
 		constructor(name) {
 			const today = new Date().toISOString();
 
@@ -43,36 +44,43 @@ Author: Jonathan Cruz
 			this.dateModified = today;
 		}
 
+		// Appends a Flashcard object to the `flashcards` array/attribute.
 		addFlashcard(flashcard) {
+			// Check if the passed value is an instance of the Flashcard class. If it is not, throw an error.
 			if(!(flashcard instanceof Flashcard)) {
 				throw new Error('Flashcard could not be added. Invalid instance provided.');
 			}
 
-			this.flashcards.push(flashcard);
+			this.flashcards.push(flashcard); // Append the flashcard
 		}
 
+		// Replaces an existing Flashcard object in the `flashcards` array/attribute with another Flashcard object
 		replaceFlashcard(id, newFlashcard) {
-			const oldFlashcard = this.flashcards.find((item) => item.id == id);
+			const oldFlashcard = this.flashcards.find((item) => item.id == id); // Get the flashcard whose ID matches the provided ID
 
+			// Check if there is a matching flashcard. If there is none, throw an error.
 			if(!oldFlashcard) {
 				throw new Error('Flashcard could not be found.');
 			}
 
+			// Check if the new flashcard provided is an instance of the Flashcard class. If it is not, throw an error.
 			if(!(newFlashcard instanceof Flashcard)) {
 				throw new Error('Flashcard could not be updated. Invalid instance provided.');
 			}
 
-			this.flashcards = this.flashcards.map((item) => item.id == id ? newFlashcard : item);
+			this.flashcards = this.flashcards.map((item) => item.id == id ? newFlashcard : item); // Iterate through all items. Replace the matched item with the new instance. Retain the other items.
 		}
 
+		// Removes an existing Flashcard object from the `flashcards` array/attribute
 		removeFlashcard(id) {
-			const flashcard = this.flashcards.find((item) => item.id == id);
+			const flashcard = this.flashcards.find((item) => item.id == id); // Get the flashcard whose ID matches the provided ID
 
+			// Check if there is a matching flashcard. If there is not, throw an error.
 			if(!flashcard) {
 				throw new Error('Flashcard could not be found.');
 			}
 
-			this.flashcards = this.flashcards.filter((item) => item.id != id);
+			this.flashcards = this.flashcards.filter((item) => item.id != id); // Filter out the matched item from the array
 		}
 	}
 
@@ -94,7 +102,7 @@ Author: Jonathan Cruz
 	class App {
 		#storageKey = 'flashcardSets'; // The local storage key where the flashcard sets data is stored
 
-		// The constructor method. Instantiates the object's attributes.
+		// The constructor method. Initializes the object's attributes.
 		constructor() {
 			this.flashcardSets = []; // Array of FlashcardSets
 			this.isSetView = true; // Boolean flag that indicates if the "My Flashcards" page should display FlashcardSets or Flashcards
@@ -199,7 +207,7 @@ Author: Jonathan Cruz
 			const viewTemplateContents = document.importNode(viewTemplate.content, true);
 			const flashcardSet = app.flashcardSets.find((item) => item.id == app.viewedSetId); // Retrieve flashcard set whose ID matches app.viewedSetId
 
-			// If a matching flashcard set is found
+			// If a matching flashcard set is found, render the "individual set" view (display flashcards in the set)
 			if(flashcardSet) {
 				const h1 = viewTemplateContents.getElementById('flashcard-set-name');
 				h1.textContent = flashcardSet.name;
@@ -212,8 +220,7 @@ Author: Jonathan Cruz
 			const itemsList = document.getElementById('flashcard-sets');
 			const emptyMessage = document.getElementById('no-flashcard-sets');
 
-			// Empty out list of flashcard sets before rendering data
-			itemsList.replaceChildren();
+			itemsList.replaceChildren(); // Empty out list of flashcard sets before rendering data
 
 			// If there are flashcard sets to display
 			if(this.flashcardSets?.length && this.flashcardSets.length > 0) {
@@ -235,8 +242,7 @@ Author: Jonathan Cruz
 					deleteButton.setAttribute('aria-label', 'Delete "' + flashcardSet.name + '"');
 					viewButton.dataset.id = flashcardSet.id;
 
-					// Append the template contents to the list of sets
-					itemsList.appendChild(templateContents);
+					itemsList.appendChild(templateContents); // Append the template contents to the list of sets
 				}
 
 				// Display the list and hide the empty message
@@ -293,36 +299,43 @@ Author: Jonathan Cruz
 			}
 		}
 
+		// Appends a FlashcardSet object to the `flashcardSets` array/attribute
 		addFlashcardSet(flashcardSet) {
+			// Check if the passed value is an instance of the FlashcardSet class. If it is not, throw an error.
 			if(!(flashcardSet instanceof FlashcardSet)) {
 				throw new Error('Flashcard Set could not be added. Invalid instance provided.');
 			}
 
-			this.flashcardSets.push(flashcardSet);
+			this.flashcardSets.push(flashcardSet); // Append the set
 		}
 
+		// Replaces an existing FlashcardSet object in the `flashcardSets` array/attribute with another instance
 		replaceFlashcardSet(id, newFlashcardSet) {
-			const oldFlashcardSet = this.flashcardSets.find((item) => item.id == id);
+			const oldFlashcardSet = this.flashcardSets.find((item) => item.id == id); // Retrieve the set whose ID matches the provided ID
 
+			// Check if there is a matching set. If there is none, throw an error.
 			if(!oldFlashcardSet) {
 				throw new Error('Flashcard Set could not be found.');
 			}
 
+			// Check if the new set provided is an instance of the FlashcardSet class. If it is not, throw an error.
 			if(!(newFlashcardSet instanceof FlashcardSet)) {
 				throw new Error('Flashcard Set could not be updated. Invalid instance provided.');
 			}
 
-			this.flashcardSets = this.flashcardSets.map((item) => item.id == id ? newFlashcardSet : item);
+			this.flashcardSets = this.flashcardSets.map((item) => item.id == id ? newFlashcardSet : item); // Iterate through the items. Replace the matching set with the new set. Retain the other items.
 		}
 
+		// Removes an existing FlashcardSet object from the `flashcardSets` array/attribute
 		removeFlashcardSet(id) {
-			const flashcardSet = this.flashcardSets.find((item) => item.id == id);
+			const flashcardSet = this.flashcardSets.find((item) => item.id == id); // Retrieve the set whose ID matches the provided ID
 
+			// Check if there is matching set. If there is none, throw an error.
 			if(!flashcardSet) {
 				throw new Error('Flashcard Set could not be found.');
 			}
 
-			this.flashcardSets = this.flashcardSets.filter((item) => item.id != id);
+			this.flashcardSets = this.flashcardSets.filter((item) => item.id != id); // Filter out the matching set
 		}
 	}
 
@@ -334,6 +347,7 @@ Author: Jonathan Cruz
 	app.loadData();
 	app.render();
 
+	// Capture "click" event in the document.body for event delegation
 	document.body.addEventListener('click', (event) => {
 		const eventTargetClasses = [...event.target.classList]; // Convert class list into an array by spreading its contents into an array
 
@@ -409,8 +423,8 @@ Author: Jonathan Cruz
 			const button = event.target;
 			const { id } = button.dataset;
 			const form = document.getElementById('edit-card-form');
-			const flashcardSet = app.flashcardSets.find((item) => item.id == app.viewedSetId);
-			const flashcard = flashcardSet?.flashcards ? flashcardSet?.flashcards.find((item) => item.id == id) : null;
+			const flashcardSet = app.flashcardSets.find((item) => item.id == app.viewedSetId); // Retrieve the flashcard set whose ID matches the viewed set's ID
+			const flashcard = flashcardSet?.flashcards ? flashcardSet?.flashcards.find((item) => item.id == id) : null; // Retrieve the flashcard in the set whose ID matches the button's data-id attribute
 
 			// Check if the ID is not a falsy value (empty), the form and flashcard exist. If so, pre-fill the form fields with the flashcard's data.
 			if(id && form && flashcard) {
@@ -460,6 +474,7 @@ Author: Jonathan Cruz
 		}
 	});
 
+	// Capture "submit" event in the document.body for event delegation
 	document.body.addEventListener('submit', (event) => {
 		const { id } = event.target;
 
@@ -523,9 +538,10 @@ Author: Jonathan Cruz
 			const form = event.target;
 			const formData = Object.fromEntries(new FormData(form)); // Convert submitted form data into an object
 			const { question, answer, tags } = formData;
-			const flashcardSet = app.flashcardSets.find((item) => item.id == app.viewedSetId);
+			const flashcardSet = app.flashcardSets.find((item) => item.id == app.viewedSetId); // Retrieve the set whose ID matches the ID of the viewed set
 			const newFlashcard = new Flashcard(question, answer, tags);
 
+			// Check if a matching set was found before proceeding
 			if(flashcardSet) {
 				flashcardSet.addFlashcard(newFlashcard);
 				app.saveData();
@@ -543,14 +559,15 @@ Author: Jonathan Cruz
 			const formData = Object.fromEntries(new FormData(form)); // Convert submitted form data into an object
 			const flashcardId = formData?.flashcard_id;
 			const { question, answer, tags } = formData;
-			const flashcardSet = app.flashcardSets.find((item) => item.id == app.viewedSetId);
-			const oldFlashcard = flashcardSet?.flashcards ? flashcardSet.flashcards.find((item) => item.id == flashcardId) : null;
+			const flashcardSet = app.flashcardSets.find((item) => item.id == app.viewedSetId); // Retrieve the set whose ID matches the ID of the viewed set
+			const oldFlashcard = flashcardSet?.flashcards ? flashcardSet.flashcards.find((item) => item.id == flashcardId) : null; // Retrieve the flashcard in the set whose ID matches the value of the ID input
 			const newFlashcard = new Flashcard(question, answer, tags);
 
 			// Retain the id and dateCreated fields of the old flashcard
 			newFlashcard.id = oldFlashcard.id;
 			newFlashcard.dateCreated = oldFlashcard.dateCreated;
 
+			// Check if a matching set was found before proceeding
 			if(flashcardSet) {
 				flashcardSet.replaceFlashcard(flashcardId, newFlashcard);
 				app.saveData();
@@ -566,9 +583,10 @@ Author: Jonathan Cruz
 
 			const form = event.target;
 			const formData = Object.fromEntries(new FormData(form)); // Convert submitted form data into an object
-			const flashcardSet = app.flashcardSets.find((item) => item.id == app.viewedSetId);
+			const flashcardSet = app.flashcardSets.find((item) => item.id == app.viewedSetId); // Retrieve the set whose ID matches the ID of the viewed set
 			const flashcardId = formData?.flashcard_id;
 
+			// Check if a matching set was found before proceeding
 			if(flashcardSet) {
 				flashcardSet.removeFlashcard(flashcardId);
 				app.saveData();
@@ -579,6 +597,7 @@ Author: Jonathan Cruz
 		}
 	});
 
+	// Capture "transitionstart" event in the document.body for event delegation
 	document.body.addEventListener('transitionstart', (event) => {
 		const eventTargetClasses = [...event.target.classList]; // Convert class list into an array by spreading its contents into an array
 
@@ -586,12 +605,14 @@ Author: Jonathan Cruz
 		if(eventTargetClasses.includes('flashcard-contents')) {
 			const flashcard = event.target.closest('.flashcard');
 
+			// Check if the ".flashcard-contents" is nested under a ".flashcard" element
 			if(flashcard) {
 				flashcard.classList.add('transitioning');
 			}
 		}
 	});
 
+	// Capture "transitionend" event in the document.body for event delegation
 	document.body.addEventListener('transitionend', (event) => {
 		const eventTargetClasses = [...event.target.classList]; // Convert class list into an array by spreading its contents into an array
 
@@ -599,6 +620,7 @@ Author: Jonathan Cruz
 		if(eventTargetClasses.includes('flashcard-contents')) {
 			const flashcard = event.target.closest('.flashcard');
 
+			// Check if the ".flashcard-contents" is nested under a ".flashcard" element
 			if(flashcard) {
 				flashcard.classList.remove('transitioning');
 			}
