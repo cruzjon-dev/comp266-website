@@ -920,20 +920,26 @@ details[open] summary h2 {
 		flex-direction: row;
 		flex-wrap: wrap;
 		justify-content: space-between;
-		gap: 30px;
+		gap: var(--gap);
 	}
 
-	#flashcards-section h1,
-	#flashcards-section .page-actions {
-		max-width: calc(50% - var(--gap) / 2);
+	#flashcards-section .section-header > * {
+		width: 100%;
 	}
 
-	#flashcards-section h1 {
+	#flashcards-section .section-header h1,
+	#flashcards-section .section-header .page-actions {
+		width: auto;
+	}
+
+	#flashcards-section .section-header h1 {
+		max-width: calc(40% - var(--gap) / 2);
 		margin: 0;
 		order: -2;
 	}
 
 	#flashcards-section .page-actions {
+		max-width: calc(60% - var(--gap) / 2);
 		order: -1;
 	}
 
