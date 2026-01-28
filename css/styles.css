@@ -657,8 +657,33 @@ details[open] summary h2 {
 	display: flex;
 	flex-direction: column;
 	gap: 20px;
+}
+
+#flashcards-section .page-actions .button,
+#flashcards-section .page-actions input {
+	width: 100%;
 	max-width: 300px;
 	margin-inline: auto;
+}
+
+#flashcards-section .page-actions .back-link {
+	font-weight: 500;
+	color: var(--color-gray-darker);
+	text-decoration: none;
+	order: -2;
+	flex-shrink: 0;
+}
+
+#flashcards-section .page-actions .back-link::before {
+	content: '\f053';
+	margin-right: 5px;
+	font-family: 'Font Awesome 7 Free';
+	font-weight: 700;
+}
+
+#flashcards-section .page-actions .back-link:hover,
+#flashcards-section .page-actions .back-link:focus {
+	color: var(--color-purple);
 }
 
 #flashcards-section .page-actions .button {
@@ -865,10 +890,16 @@ details[open] summary h2 {
 	#flashcards-section .page-actions {
 		flex-direction: row;
 		align-items: center;
+	}
+
+	#flashcards-section .page-actions .button,
+	#flashcards-section .page-actions input {
+		width: auto;
 		max-width: none;
 		margin-inline: 0;
 	}
 
+	#flashcards-section .page-actions .back-link,
 	#flashcards-section .page-actions .button {
 		order: initial;
 	}
