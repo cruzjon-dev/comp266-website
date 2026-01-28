@@ -13,6 +13,20 @@ Author: Jonathan Cruz
 		return Date.now() + "-" + randomNumber;
 	}
 
+	// Applies filters by triggering the "input" event on filter input elements
+	function applyFilters() {
+		const filterInputs = document.querySelectorAll('.filter-input');
+
+		// If there are filter inputs on the page
+		if(filterInputs.length) {
+			const inputEvent = new Event('input', {
+				bubbles: true // Must be set to true since the "input" event is handled and delegated by the document body
+			});
+
+			filterInputs.forEach((el) => el.dispatchEvent(inputEvent));
+		}
+	}
+
 	/*-------------------------
 	- Class definitions
 	-------------------------*/
@@ -174,6 +188,8 @@ Author: Jonathan Cruz
 				this.#renderView();
 				this.#renderFlashcards();
 			}
+
+			applyFilters(); // Apply any existing filter after items are rendered
 		}
 
 		// Renders the appropriate view within #flashcard-section (currently only switches to the "individual set" view for displaying flashcards in a set)
