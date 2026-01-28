@@ -28,8 +28,11 @@ document.body.addEventListener('input', function(event) {
 		filterTarget.forEach(function(targetEl) {
 			let isMatch = false;
 
+			// If the filter value is an empty string (e.g. if the user deletes the keywords), immediately flag the element as a match
+			if(filterValue === '') {
+				isMatch = true;
 			// If there are specified child elements to be inspected, match the search keyword with the child elements' text
-			if(input.dataset?.targetText !== undefined) {
+			} else if(input.dataset?.targetText !== undefined) {
 				const filterTexts = targetEl.querySelectorAll(input.dataset.targetText); // The child elements within the target element whose text should contain the search keyword
 
 				// Convert the filterTexts node list into an array and reduce it to a singular value. This value serves as the boolean flag indicating if one or more of the child elements contain the search keyword.
