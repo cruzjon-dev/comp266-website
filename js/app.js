@@ -268,11 +268,13 @@ Author: Jonathan Cruz
 					const templateContents = document.importNode(template.content, true);
 					const question = templateContents.querySelector('.flashcard-question');
 					const answer = templateContents.querySelector('.flashcard-answer .overflow-container'); // Set text inside overflow container which displays a scrollbar if the content is too long
+					const tags = templateContents.querySelector('.flashcard-tags');
 					const editButton = templateContents.querySelector('.edit-flashcard');
 					const deleteButton = templateContents.querySelector('.delete-flashcard');
 
 					question.textContent = flashcard.question;
 					answer.textContent = flashcard.answer;
+					tags.textContent = flashcard.tags;
 					editButton.dataset.id = flashcard.id;
 					editButton.setAttribute('aria-label', 'Edit "' + flashcard.question + '"');
 					deleteButton.dataset.id = flashcard.id;

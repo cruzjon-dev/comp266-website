@@ -120,7 +120,7 @@
 						<div class="page-actions">
 							<a class="back-link" href="/flashcards.html">Go Back</a>
 							<label class="sr-only" for="cards-search-keywords">Search for a Flashcard</label>
-							<input id="cards-search-keywords" class="filter-input" name="search" type="text" placeholder="Search keywords" data-target=".flashcard" data-target-text="dt, dd" data-no-results=".filter-no-results">
+							<input id="cards-search-keywords" class="filter-input" name="search" type="text" placeholder="Search keywords" data-target=".flashcard" data-target-text="dt, dd, .flashcard-tags" data-no-results=".filter-no-results">
 							<button type="button" class="button dialog-open-button" data-dialog="#add-flashcard-dialog">Add Flashcard</button>
 						</div>
 					</div>
@@ -225,6 +225,8 @@
 							<div class="overflow-container"></div>
 						</dd>
 					</dl>
+
+					<span class="flashcard-tags hidden"></span>
 
 					<div class="card-actions">
 						<button type="button" aria-label="" class="edit-flashcard dialog-open-button" data-dialog="#edit-flashcard-dialog">Edit</button>
