@@ -32,13 +32,16 @@ Author: Jonathan Cruz
 		// Check if the element is nested under a '.flashcard" element
 		if(flashcardElement && flashcardElement instanceof Node) {
 			const flashcardClasses = [...flashcardElement.classList]; // Convert the class list into an array by spreading its content into an array
+			const question = flashcardElement.querySelector('.flashcard-question');
 			const answer = flashcardElement.querySelector('.flashcard-answer');
 
 			// If the back side of the flashcard is currently shown, flag answer as hidden before flipping the card
 			if(flashcardClasses.includes('flipped')) {
+				question.setAttribute('aria-hidden', false);
 				answer.setAttribute('aria-hidden', true);
 			// Otherwise, flag answer as displayed before flipping the card
 			} else {
+				question.setAttribute('aria-hidden', true);
 				answer.setAttribute('aria-hidden', false);
 			}
 
