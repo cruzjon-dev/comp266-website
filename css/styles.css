@@ -792,10 +792,10 @@ details[open] summary h2 {
 
 .flashcard-set .view-set-button:hover,
 .flashcard-set .view-set-button:focus,
-.flashcard .flashcard-question:hover,
-.flashcard .flashcard-question:focus,
-.flashcard .flashcard-answer:hover,
-.flashcard .flashcard-answer:focus {
+.flashcard .flashcard-contents:hover .flashcard-question,
+.flashcard .flashcard-contents:focus .flashcard-question,
+.flashcard .flashcard-contents:hover .flashcard-answer,
+.flashcard .flashcard-contents:focus .flashcard-answer {
 	border-color: var(--color-purple-light);
 }
 

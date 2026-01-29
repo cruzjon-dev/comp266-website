@@ -27,6 +27,26 @@ Author: Jonathan Cruz
 		}
 	}
 
+	// Toggles the "flipped" CSS class of a given DOM node
+	function flipFlashcard(flashcardElement) {
+		// Check if the element is nested under a '.flashcard" element
+		if(flashcardElement && flashcardElement instanceof Node) {
+			const flashcardClasses = [...flashcardElement.classList]; // Convert the class list into an array by spreading its content into an array
+			const answer = flashcardElement.querySelector('.flashcard-answer');
+
+			// If the back side of the flashcard is currently shown, flag answer as hidden before flipping the card
+			if(flashcardClasses.includes('flipped')) {
+				answer.setAttribute('aria-hidden', true);
+			// Otherwise, flag answer as displayed before flipping the card
+			} else {
+				answer.setAttribute('aria-hidden', false);
+			}
+
+			flashcardElement.classList.toggle('flipped'); // Toggle the flashcard's "flipped" CSS class
+		}
+	}
+
+
 	/*-------------------------
 	- Class definitions
 	-------------------------*/
@@ -453,28 +473,11 @@ Author: Jonathan Cruz
 			}
 		}
 
-		// Click event handler for ".flashcard-question" and ".flashcard-answer" elements
-		if(eventTargetClasses.includes('flashcard-question') || eventTargetClasses.includes('flashcard-answer')) {
+		// Click event handler for ".flashcard-contents" elements and any elements under ".flashcard-contents"
+		const flashcardContents = event.target.closest('.flashcard-contents');
+		if(eventTargetClasses.includes('flashcard-contents') || flashcardContents) {
 			const flashcard = event.target.closest('.flashcard');
-
-			// Check if the element is nested under a '.flashcard" element
-			if(flashcard) {
-				flashcard.classList.toggle('flipped'); // Toggle the flashcard's "flipped" CSS class
-			}
-		}
-
-		// Click event handler for ".overflow-container" elements
-		if(eventTargetClasses.includes('overflow-container')) {
-			const flashcardAnswer = event.target.closest('.flashcard-answer');
-
-			// If the element is contained inside a ".flashcard-answer" element, pass/trigger the click event on that element
-			if(flashcardAnswer) {
-				const clickEvent = new Event('click', {
-					bubbles: true // Must be set to true since the click event handler of the ".flashcard-answer" is handled and delegated by document body
-				});
-
-				flashcardAnswer.dispatchEvent(clickEvent);
-			}
+			flipFlashcard(flashcard);
 		}
 	});
 
@@ -628,6 +631,17 @@ Author: Jonathan Cruz
 			if(flashcard) {
 				flashcard.classList.remove('transitioning');
 			}
+		}
+	});
+
+	// Capture "keyup" event in the document.body for event delegation
+	document.body.addEventListener('keyup', (event) => {
+		const eventTargetClasses = [...event.target.classList]; // Convert class list into an array by spreading its contents into an array
+
+		// Key up event handler for ".flashcard-contents" elements (limited to the space and enter keys)
+		if(eventTargetClasses.includes('flashcard-contents') && (event.key === " " || event.key === "Enter")) {
+			const flashcard = event.target.closest('.flashcard');
+			flipFlashcard(flashcard);
 		}
 	});
 })();
