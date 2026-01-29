@@ -292,12 +292,14 @@ Author: Jonathan Cruz
 				// Iterate through each flashcard in the set, fill in the template with the flashcard's data and render the flashcard
 				for(const flashcard of flashcardSet.flashcards) {
 					const templateContents = document.importNode(template.content, true);
+					const contentsContainer = templateContents.querySelector('.flashcard-contents');
 					const question = templateContents.querySelector('.flashcard-question');
 					const answer = templateContents.querySelector('.flashcard-answer .overflow-container'); // Set text inside overflow container which displays a scrollbar if the content is too long
 					const tags = templateContents.querySelector('.flashcard-tags');
 					const editButton = templateContents.querySelector('.edit-flashcard');
 					const deleteButton = templateContents.querySelector('.delete-flashcard');
 
+					contentsContainer.setAttribute('aria-label', 'Flip Flashcard:' + flashcard.question);
 					question.textContent = flashcard.question;
 					answer.textContent = flashcard.answer;
 					tags.textContent = flashcard.tags;
