@@ -257,9 +257,10 @@ Author: Jonathan Cruz
 					// Fill in the template's elements with the set's data
 					h2.textContent = flashcardSet.name;
 					editButton.dataset.id = flashcardSet.id;
-					editButton.setAttribute('aria-label', 'Edit "' + flashcardSet.name + '"');
+					editButton.setAttribute('aria-label', 'Edit Set: "' + flashcardSet.name + '"');
 					deleteButton.dataset.id = flashcardSet.id;
-					deleteButton.setAttribute('aria-label', 'Delete "' + flashcardSet.name + '"');
+					deleteButton.setAttribute('aria-label', 'Delete Set: "' + flashcardSet.name + '"');
+					viewButton.setAttribute('aria-label', 'View Set: ' + flashcardSet.name);
 					viewButton.dataset.id = flashcardSet.id;
 
 					itemsList.appendChild(templateContents); // Append the template contents to the list of sets
@@ -304,9 +305,9 @@ Author: Jonathan Cruz
 					answer.textContent = flashcard.answer;
 					tags.textContent = flashcard.tags;
 					editButton.dataset.id = flashcard.id;
-					editButton.setAttribute('aria-label', 'Edit "' + flashcard.question + '"');
+					editButton.setAttribute('aria-label', 'Edit Flashcard: "' + flashcard.question + '"');
 					deleteButton.dataset.id = flashcard.id;
-					deleteButton.setAttribute('aria-label', 'Delete "' + flashcard.question + '"');
+					deleteButton.setAttribute('aria-label', 'Delete Flashcard: "' + flashcard.question + '"');
 
 					itemsList.appendChild(templateContents);
 				}
