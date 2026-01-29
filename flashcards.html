@@ -39,7 +39,7 @@
 
 		<main>
 			<!-- Flashcard Sets View (Default View) -->
-			<section id="flashcards-section" class="page-section">
+			<section id="flashcards-section" class="page-section" aria-live="polite">
 				<div class="container container-large">
 					<div class="section-header">
 						<h1>My Flashcards</h1>
@@ -68,14 +68,14 @@
 						</form>
 					</dialog>
 
-					<ul id="flashcard-sets" class="hidden" aria-live="polite"></ul>
+					<ul id="flashcard-sets" class="hidden"></ul>
 
-					<div id="no-flashcard-sets" class="hidden" aria-live="polite">
+					<div id="no-flashcard-sets" class="hidden">
 						<p class="">You currently do not have any sets. Please create a set by clicking the "Create Set" button.</p>
 						<p><button class="button add-set-button dialog-open-button" type="button" data-dialog="#add-set-dialog">Create Set</button></p>
 					</div>
 
-					<p class="filter-no-results hidden" role="status" aria-live="polite">No results found.</p>
+					<p class="filter-no-results hidden">No results found.</p>
 
 					<dialog id="edit-set-dialog" aria-labelledby="edit-set-dialog-title">
 						<button type="button" class="dialog-close-icon dialog-close-button">Close</button>
@@ -151,14 +151,14 @@
 						</form>
 					</dialog>
 
-					<ul id="flashcards" class="hidden" aria-live="polite"></ul>
+					<ul id="flashcards" class="hidden"></ul>
 
-					<div id="no-flashcards" class="hidden" aria-live="polite">
+					<div id="no-flashcards" class="hidden">
 						<p class="">You currently do not have any flashcards in this set. Please add a flashcard by clicking the "Add Flashcard" button.</p>
 						<p><button class="button add-flashcard-button dialog-open-button" type="button" data-dialog="#add-flashcard-dialog">Add Flashcard</button></p>
 					</div>
 
-					<p class="filter-no-results hidden" role="status" aria-live="polite">No results found.</p>
+					<p class="filter-no-results hidden">No results found.</p>
 
 					<dialog id="edit-flashcard-dialog" aria-labelledby="edit-flashcard-dialog-title">
 						<button type="button" class="dialog-close-icon dialog-close-button">Close</button>
