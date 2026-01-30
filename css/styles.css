@@ -180,11 +180,11 @@ a:hover, a:focus {
 -----------------------------------*/
 
 .button {
-	--border-color: var(--color-purple-light);
-	--background-color: var(--color-purple-light);
+	--border-color: var(--color-purple);
+	--background-color: var(--color-purple);
 	--color: var(--color-white);
-	--hover-border-color: var(--color-purple);
-	--hover-background-color: var(--color-purple);
+	--hover-border-color: var(--color-purple-dark);
+	--hover-background-color: var(--color-purple-dark);
 	--hover-color: var(--color-white);
 
 	display: inline-block;
