@@ -27,6 +27,17 @@ Author: Jonathan Cruz
 		}
 	}
 
+	// Announces the new status of the program for accessibility devices (e.g. screen readers)
+	function updateAccessibilityStatus(message) {
+		const status = document.getElementById('accessibility-status');
+
+		if(status) {
+			const paragraph = document.createElement('p');
+			paragraph.textContent = message;
+			status.replaceChildren(paragraph);
+		}
+	}
+
 	// Toggles the "flipped" CSS class of a given DOM node
 	function flipFlashcard(flashcardElement) {
 		// Check if the element is nested under a '.flashcard" element
@@ -46,6 +57,7 @@ Author: Jonathan Cruz
 			}
 
 			flashcardElement.classList.toggle('flipped'); // Toggle the flashcard's "flipped" CSS class
+			updateAccessibilityStatus('Card flipped.');
 		}
 	}
 
@@ -505,6 +517,11 @@ Author: Jonathan Cruz
 			app.render();
 			form.submit();
 			form.reset();
+
+			// Announce successful completion to accessibility devices
+			setTimeout(() => {
+				updateAccessibilityStatus('Set successfully created.');
+			}, 200); // The delay is necessary as screen readers will announce the change of focus when the form is submitted which closes its parent dialog element
 		}
 
 		// Submit event handler for "#edit-set-form" form
@@ -527,6 +544,11 @@ Author: Jonathan Cruz
 			app.render();
 			form.submit();
 			form.reset();
+
+			// Announce successful completion to accessibility devices
+			setTimeout(() => {
+				updateAccessibilityStatus('Set successfully updated.');
+			}, 200); // The delay is necessary as screen readers will announce the change of focus when the form is submitted which closes its parent dialog element
 		}
 
 		// Submit event handler for "#delete-set-form" form
@@ -542,6 +564,11 @@ Author: Jonathan Cruz
 			app.render();
 			form.submit();
 			form.reset();
+
+			// Announce successful completion to accessibility devices
+			setTimeout(() => {
+				updateAccessibilityStatus('Set successfully deleted.');
+			}, 200); // The delay is necessary as screen readers will announce the change of focus when the form is submitted which closes its parent dialog element
 		}
 
 		// Submit event handler for "#add-card-form" form
@@ -561,6 +588,11 @@ Author: Jonathan Cruz
 				app.render();
 				form.submit();
 				form.reset();
+
+				// Announce successful completion to accessibility devices
+				setTimeout(() => {
+					updateAccessibilityStatus('Flashcard successfully added.');
+				}, 200); // The delay is necessary as screen readers will announce the change of focus when the form is submitted which closes its parent dialog element
 			}
 		}
 
@@ -587,6 +619,11 @@ Author: Jonathan Cruz
 				app.render();
 				form.submit();
 				form.reset();
+
+				// Announce successful completion to accessibility devices
+				setTimeout(() => {
+					updateAccessibilityStatus('Flashcard successfully updated.');
+				}, 200); // The delay is necessary as screen readers will announce the change of focus when the form is submitted which closes its parent dialog element
 			}
 		}
 
@@ -606,6 +643,11 @@ Author: Jonathan Cruz
 				app.render();
 				form.submit();
 				form.reset();
+
+				// Announce successful completion to accessibility devices
+				setTimeout(() => {
+					updateAccessibilityStatus('Flashcard successfully deleted.');
+				}, 200); // The delay is necessary as screen readers will announce the change of focus when the form is submitted which closes its parent dialog element
 			}
 		}
 	});
