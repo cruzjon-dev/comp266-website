@@ -240,7 +240,7 @@ Author: Jonathan Cruz
 			const section = document.getElementById('flashcards-section');
 			const viewTemplate = document.getElementById('flashcards-view-template');
 			const viewTemplateContents = document.importNode(viewTemplate.content, true);
-			const flashcardSet = app.flashcardSets.find((item) => item.id == app.viewedSetId); // Retrieve flashcard set whose ID matches app.viewedSetId
+			const flashcardSet = this.flashcardSets.find((item) => item.id == this.viewedSetId); // Retrieve flashcard set whose ID matches app.viewedSetId
 
 			// If a matching flashcard set is found, render the "individual set" view (display flashcards in the set)
 			if(flashcardSet) {
