@@ -144,6 +144,81 @@ Author: Jonathan Cruz
 			this.viewedSetId = null; // The ID of the displayed FlashcardSet
 		}
 
+		// Initializes the autocomplete functionality of the search/filter field and the tag input fields
+		#initTagsAutocomplete() {
+			const $searchField = $('#cards-search-keywords');
+			const $formFields = $('#add-card-tags, #edit-card-tags');
+
+			// Compiles all flashcard tags that contain the provided keyword (performs a non-case sensitive search) and returns them as an array
+			const getMatchingTags = (keyword) => {
+				const flashcardSet = this.flashcardSets.find((item) => item.id == this.viewedSetId);
+				const flashcards = flashcardSet ? flashcardSet.flashcards : [];
+				const tags = new Set();
+
+				keyword = keyword.trim().toLowerCase(); // Remove excess spaces from the keyword and convert it to lowercase
+
+				// Check if the keyword is empty. If it is, return an empty array.
+				if(keyword == "") {
+					return [];
+				}
+
+				for(const flashcard of flashcards) {
+					const flashcardTags = flashcard.tags.split(','); // Split the string values using "," as the delimiter
+
+					for(let tag of flashcardTags) {
+						tag = tag.trim();
+
+						// Check if the tag is an empty string or if it has already been added to the list. If so, skip it.
+						if(tag == "") {
+							continue;
+						}
+
+						const isMatch = tag.toLowerCase().includes(keyword); // Also convert the tag into lowercase to perform a non-case sensitive search
+
+						// Check if the tag contains the keywords entered in the input field. If it does, add it to the set.
+						if(isMatch) {
+							tags.add(tag);
+						}
+					}
+				}
+
+				return [...tags]; // Return the set as an array (the jQuery UI autocomplete widget does not support sets)
+			}
+
+			// Initialize search field's tag autocomplete (utilizes the default behaviour of the autocomplete library; replaces the input field value with the selected suggestion)
+			$searchField.autocomplete({
+				// Set the autocomplete suggestions
+				source: (request, response) => {
+					const tags = getMatchingTags(request.term);
+
+					response(tags); // Call the response callback with the list of tags to display them as suggestions
+				}
+			});
+
+			// Initialize form fields' tag autocomplete (differs from the default behaviour; overwrites the "select" event and appends the selected suggestion to the input field)
+			$formFields.autocomplete({
+				// Set the autocomplete suggestions
+				source: (request, response) => {
+					const keywords = request.term.split(','); // Split the input field value using "," as the delimiter
+					const tags = getMatchingTags(keywords[keywords.length - 1]); // Treat the last entry of the split input value as the keyword
+
+					response(tags); // Call the response callback with the list of tags to display them as suggestions
+				},
+				// The select event handler of the autocomplete menu. Append the selected item to the current value of the input (overwrites the default behaviour of replacing the value of the input entirely).
+				select: (event, ui) => {
+					const input = event.target;
+					const values = input.value.split(',').map((value) => value.trim());
+
+					// Replace the keyword with the selected item
+					values.pop();
+					values.push(ui.item.label);
+					input.value = values.join(', ');
+
+					return false;
+				}
+			});
+		}
+
 		// Fetches data from the local storage, parses it and stores it into the `flashcardSets` attribute. If the data is malformed, the data will not be loaded.
 		loadData() {
 			const data = localStorage.getItem(this.#storageKey);
@@ -248,6 +323,8 @@ Author: Jonathan Cruz
 				h1.textContent = flashcardSet.name;
 				section.replaceChildren(viewTemplateContents);
 			}
+
+			this.#initTagsAutocomplete(); // Initialize the autocomplete functionality of tags
 		}
 
 		// Renders the sets to the page

@@ -1024,3 +1024,27 @@ details[open] summary h2 {
 		--columns: 3;
 	}
 }
+
+/*-----------------------------------
+- Autocomplete
+-----------------------------------*/
+
+.ui-autocomplete.ui-menu {
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.16);
+}
+
+.ui-autocomplete .ui-menu-item {
+	padding: 10px 20px;
+	background-color: var(--color-white);
+	transition: background-color 300ms ease;
+	cursor: pointer;
+}
+
+.ui-autocomplete .ui-menu-item:hover,
+.ui-autocomplete .ui-menu-item:focus {
+	background-color: var(--color-gray-lightest);
+}
