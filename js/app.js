@@ -1,5 +1,5 @@
 /*
-Description: This script serves as the main script of the FlashStash website and houses all of its functionalities.
+Description: This script serves as the main script of the FlashStash website and houses its flashcard management functionalities.
 Author: Jonathan Cruz
 */
 (function() {
