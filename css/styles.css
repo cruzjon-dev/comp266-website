@@ -1029,12 +1029,15 @@ details[open] summary h2 {
 - Autocomplete
 -----------------------------------*/
 
-.ui-autocomplete.ui-menu {
+.ui-autocomplete {
+	position: absolute;
 	display: inline-block;
+	max-height: 300px;
 	margin: 0;
 	padding: 0;
 	list-style: none;
 	box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.16);
+	overflow: hidden auto;
 }
 
 .ui-autocomplete .ui-menu-item {
