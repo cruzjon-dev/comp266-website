@@ -19,6 +19,7 @@
 	--color-purple-dark: #7935a6;
 	--color-purple-darkest: #49136d;
 	--color-red: #da2525;
+	--color-green: #2b7b29;
 
 	/* Font Sizes */
 	--font-size-h1: 2.625rem; /* 42px */
@@ -1050,4 +1051,27 @@ details[open] summary h2 {
 .ui-autocomplete .ui-menu-item:hover,
 .ui-autocomplete .ui-menu-item:focus {
 	background-color: var(--color-gray-lightest);
+}
+
+/*-----------------------------------
+- Notifications
+-----------------------------------*/
+
+.notification-container {
+	overflow: visible !important;
+}
+
+.notification {
+	border-radius: 10px;
+	box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.16);
+}
+
+.notification.success {
+	background-color: var(--color-green);
+	color: var(--color-white);
+}
+
+.notification.error {
+	background-color: var(--color-red);
+	color: var(--color-white);
 }

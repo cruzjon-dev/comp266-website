@@ -38,6 +38,25 @@ Author: Jonathan Cruz
 		}
 	}
 
+	// Displays a timed (3 seconds) notification message with the provided text
+	function showNotification(text, cssClasses) {
+		cssClasses = ('notification ' + cssClasses).trim();
+
+		Swal.fire({
+			titleText: text,
+			backdrop: false,
+			toast: true,
+			position: 'bottom',
+			timer: 3000,
+			timerProgressBar: true,
+			customClass: {
+				container: 'notification-container',
+				popup: cssClasses
+			},
+			showConfirmButton: false,
+		});
+	}
+
 	// Toggles the "flipped" CSS class of a given DOM node
 	function flipFlashcard(flashcardElement) {
 		// Check if the element is nested under a '.flashcard" element
@@ -607,9 +626,13 @@ Author: Jonathan Cruz
 			form.reset();
 
 			// Announce successful completion to accessibility devices
+			const statusMessage = 'Set successfully created.';
+
 			setTimeout(() => {
-				updateAccessibilityStatus('Set successfully created.');
+				updateAccessibilityStatus(statusMessage);
 			}, 200); // The delay is necessary as screen readers will announce the change of focus when the form is submitted which closes its parent dialog element
+
+			showNotification(statusMessage, 'success');
 		}
 
 		// Submit event handler for "#edit-set-form" form
@@ -634,9 +657,13 @@ Author: Jonathan Cruz
 			form.reset();
 
 			// Announce successful completion to accessibility devices
+			const statusMessage = 'Set successfully updated.';
+
 			setTimeout(() => {
-				updateAccessibilityStatus('Set successfully updated.');
+				updateAccessibilityStatus(statusMessage);
 			}, 200); // The delay is necessary as screen readers will announce the change of focus when the form is submitted which closes its parent dialog element
+
+			showNotification(statusMessage, 'success');
 		}
 
 		// Submit event handler for "#delete-set-form" form
@@ -654,9 +681,13 @@ Author: Jonathan Cruz
 			form.reset();
 
 			// Announce successful completion to accessibility devices
+			const statusMessage = 'Set successfully deleted.';
+
 			setTimeout(() => {
-				updateAccessibilityStatus('Set successfully deleted.');
+				updateAccessibilityStatus(statusMessage);
 			}, 200); // The delay is necessary as screen readers will announce the change of focus when the form is submitted which closes its parent dialog element
+
+			showNotification(statusMessage, 'success');
 		}
 
 		// Submit event handler for "#add-card-form" form
@@ -678,9 +709,13 @@ Author: Jonathan Cruz
 				form.reset();
 
 				// Announce successful completion to accessibility devices
+				const statusMessage = 'Flashcard successfully added.';
+
 				setTimeout(() => {
-					updateAccessibilityStatus('Flashcard successfully added.');
+					updateAccessibilityStatus(statusMessage);
 				}, 200); // The delay is necessary as screen readers will announce the change of focus when the form is submitted which closes its parent dialog element
+
+				showNotification(statusMessage, 'success');
 			}
 		}
 
@@ -709,9 +744,13 @@ Author: Jonathan Cruz
 				form.reset();
 
 				// Announce successful completion to accessibility devices
+				const statusMessage = 'Flashcard successfully updated.';
+
 				setTimeout(() => {
-					updateAccessibilityStatus('Flashcard successfully updated.');
+					updateAccessibilityStatus(statusMessage);
 				}, 200); // The delay is necessary as screen readers will announce the change of focus when the form is submitted which closes its parent dialog element
+
+				showNotification(statusMessage, 'success');
 			}
 		}
 
@@ -733,9 +772,13 @@ Author: Jonathan Cruz
 				form.reset();
 
 				// Announce successful completion to accessibility devices
+				const statusMessage = 'Flashcard successfully deleted.';
+
 				setTimeout(() => {
-					updateAccessibilityStatus('Flashcard successfully deleted.');
+					updateAccessibilityStatus(statusMessage);
 				}, 200); // The delay is necessary as screen readers will announce the change of focus when the form is submitted which closes its parent dialog element
+
+				showNotification(statusMessage);
 			}
 		}
 	});
