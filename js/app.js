@@ -192,7 +192,18 @@ Author: Jonathan Cruz
 					const tags = getMatchingTags(request.term);
 
 					response(tags); // Call the response callback with the list of tags to display them as suggestions
-				}
+				},
+				// The select event handler of the autocomplete menu. Apply the selected suggestion as the filter.
+				select: (event, ui) => {
+					const input = event.target;
+
+					// Replace the input value entirely with the selected suggestion and apply it as the filter
+					input.value = ui.item.label;
+					applyFilters();
+					$searchField.blur();
+
+					return false;
+				},
 			});
 
 			// Initialize form fields' tag autocomplete (differs from the default behaviour; overwrites the "select" event and appends the selected suggestion to the input field)
