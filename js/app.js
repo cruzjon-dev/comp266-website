@@ -44,7 +44,6 @@ Author: Jonathan Cruz
 
 		Swal.fire({
 			titleText: text,
-			backdrop: false,
 			toast: true,
 			position: 'bottom',
 			timer: 3000,
