@@ -1,3 +1,12 @@
+/*
+Description: This is a modified version of List.js v2.3.1.
+
+Modifications:
+- Updated active pagination link to have its "aria-current" attribute set to "page".
+- Updated disabled pagination links to have their "aria-disabled" attribute set to "true".
+- Updated pagination links to not trigger their default click event behaviour (i.e. preventDefault).
+*/
+
 var List;List =
 /******/ (function() { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
@@ -573,6 +582,10 @@ module.exports = function (list) {
           classes(item.elm).add(className);
         }
 
+        if(currentPage === i) {
+          item.elm.firstChild.setAttribute('aria-current', 'page');
+        }
+
         item.elm.firstChild.setAttribute('data-i', i);
         item.elm.firstChild.setAttribute('data-page', page);
       } else if (is.dotted(pagingList, i, left, right, currentPage, innerWindow, pagingList.size())) {
@@ -581,6 +594,7 @@ module.exports = function (list) {
           dotted: true
         })[0];
         classes(item.elm).add('disabled');
+        item.elm.firstChild.setAttribute('aria-disabled', 'true');
       }
     }
   };
@@ -621,6 +635,8 @@ module.exports = function (list) {
       sortClass: 'pagination-sort-that-is-not-supposed-to-exist'
     });
     events.bind(pagingList.listContainer, 'click', function (e) {
+      e.preventDefault();
+
       var target = e.target || e.srcElement,
           page = list.utils.getAttribute(target, 'data-page'),
           i = list.utils.getAttribute(target, 'data-i');
