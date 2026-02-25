@@ -1075,3 +1075,55 @@ details[open] summary h2 {
 	background-color: var(--color-red);
 	color: var(--color-white);
 }
+
+/*-----------------------------------
+- Pagination
+-----------------------------------*/
+
+.pagination-container {
+	margin-top: 30px;
+}
+
+.pagination {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 10px;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.pagination li a {
+	--padding: 5px;
+
+	position: relative;
+	text-decoration: none;
+	padding: var(--padding);
+}
+
+.pagination li.active a {
+	font-weight: 700;
+	color: var(--color-purple-darkest);
+}
+
+.pagination li.active a::after {
+	content: '';
+	display: block;
+	position: absolute;
+	right: var(--padding);
+	left: var(--padding);
+	bottom: 0;
+	height: 1px;
+	background-color: var(--color-purple-darkest);
+}
+
+.pagination li.disabled a {
+	cursor: text;
+}
+
+@media all and (min-width: 1025px) {
+	.pagination-container {
+		margin-top: 50px;
+	}
+}

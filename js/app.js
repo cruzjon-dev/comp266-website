@@ -154,12 +154,27 @@ Author: Jonathan Cruz
 	// Represents the application page containing sets/flashcards ("My Flashcards" page)
 	class App {
 		#storageKey = 'flashcardSets'; // The local storage key where the flashcard sets data is stored
+		#itemsPerPage = 2;
+		#paginationListBaseConfig = {
+			listClass: 'list-js',
+			page: this.#itemsPerPage,
+			pagination: {
+				innerWindow: 3,
+				outerWindow: 2,
+				paginationClass: 'pagination'
+			},
+			updated: (list) => { // Keep track of the pagination offset everytime the list is updated
+				const offset = list.i; // The 'i' attribute of the list indicates the offset of the pagination
+				this.paginationOffset = offset;
+			}
+		};
 
 		// The constructor method. Initializes the object's attributes.
 		constructor() {
 			this.flashcardSets = []; // Array of FlashcardSets
 			this.isSetView = true; // Boolean flag that indicates if the "My Flashcards" page should display FlashcardSets or Flashcards
 			this.viewedSetId = null; // The ID of the displayed FlashcardSet
+			this.paginationOffset = 1; // The pagination offset which indicates the index/offset of the item that should be displayed first (Note: this is not zero-based; it begins at 1)
 		}
 
 		// Initializes the autocomplete functionality of the search/filter field and the tag input fields
@@ -346,6 +361,8 @@ Author: Jonathan Cruz
 			const viewTemplateContents = document.importNode(viewTemplate.content, true);
 			const flashcardSet = this.flashcardSets.find((item) => item.id == this.viewedSetId); // Retrieve flashcard set whose ID matches app.viewedSetId
 
+			this.paginationList = null; // Clear reference to the pagination list
+
 			// If a matching flashcard set is found, render the "individual set" view (display flashcards in the set)
 			if(flashcardSet) {
 				const h1 = viewTemplateContents.getElementById('flashcard-set-name');
@@ -359,6 +376,7 @@ Author: Jonathan Cruz
 		// Renders the sets to the page
 		#renderSets() {
 			const itemsList = document.getElementById('flashcard-sets');
+			const paginationNav = document.getElementById('flashcard-sets-pagination');
 			const emptyMessage = document.getElementById('no-flashcard-sets');
 
 			itemsList.replaceChildren(); // Empty out list of flashcard sets before rendering data
@@ -366,6 +384,13 @@ Author: Jonathan Cruz
 			// If there are flashcard sets to display
 			if(this.flashcardSets?.length && this.flashcardSets.length > 0) {
 				const template = document.getElementById('flashcard-set-template');
+				const sectionId = 'flashcards-section';
+				const lastPageOffset = this.flashcardSets.length - this.#itemsPerPage + 1; // The offset of the 1st item in the last page
+				const paginationConfig = {
+					...this.#paginationListBaseConfig,
+					i: Math.min(this.paginationOffset, lastPageOffset), // This option indicates the starting offset of the pagination. Ensure the lastPageOffset is never exceeded (e.g. when there is only 1 item on the last page and it gets deleted).
+					valueNames: ['flashcard-set-name'], // These values correspond to the CSS class names of the elements contained in each list item
+				};
 
 				// Iterate through each flashcard set, fill in the template with the set's data and append it to the ul element
 				for(const flashcardSet of this.flashcardSets) {
@@ -387,20 +412,27 @@ Author: Jonathan Cruz
 					itemsList.appendChild(templateContents); // Append the template contents to the list of sets
 				}
 
-				// Display the list and hide the empty message
+				// Initialize pagination (List.js)
+				this.paginationList = new List(sectionId, paginationConfig);
+
+				// Display the list and pagination controls, hide the empty message
 				itemsList.classList.remove('hidden');
+				paginationNav.classList.remove('hidden');
 				emptyMessage.classList.add('hidden');
 			// If there are no flashcard sets to display
 			} else {
-				// Display the empty message and hide the list of sets
+				// Display the empty message, hide the list of sets and pagination controls
 				itemsList.classList.add('hidden');
+				paginationNav.classList.add('hidden');
 				emptyMessage.classList.remove('hidden');
+				this.paginationList = null;
 			}
 		}
 
 		// Renders the flashcards within a set to the page
 		#renderFlashcards() {
 			const itemsList = document.getElementById('flashcards');
+			const paginationNav = document.getElementById('flashcards-pagination');
 			const emptyMessage = document.getElementById('no-flashcards');
 			const flashcardSet = this.flashcardSets.find((item) => item.id === this.viewedSetId); // Get the flashcard set whose id matches this.viewedSetId
 
@@ -410,6 +442,13 @@ Author: Jonathan Cruz
 			// If there are flashcards to display
 			if(flashcardSet?.flashcards && flashcardSet.flashcards.length > 0) {
 				const template = document.getElementById('flashcard-template');
+				const sectionId = 'flashcards-section';
+				const lastPageOffset = this.flashcardSets.length - this.#itemsPerPage + 1; // The offset of the 1st item in the last page
+				const paginationConfig = {
+					...this.#paginationListBaseConfig,
+					i: Math.min(this.paginationOffset, lastPageOffset), // This option indicates the starting offset of the pagination. Ensure the lastPageOffset is never exceeded (e.g. when there is only 1 item on the last page and it gets deleted).
+					valueNames: ['flashcard-question', 'flashcard-answer', 'flashcard-tags'], // These values correspond to the CSS class names of the elements contained in each list item
+				};
 
 				// Iterate through each flashcard in the set, fill in the template with the flashcard's data and render the flashcard
 				for(const flashcard of flashcardSet.flashcards) {
@@ -433,13 +472,21 @@ Author: Jonathan Cruz
 					itemsList.appendChild(templateContents);
 				}
 
+				// Initialize pagination (List.js)
+				this.paginationList = new List(sectionId, paginationConfig);
+
+				// Display the list and pagination, hide the empty message
 				itemsList.classList.remove('hidden');
+				paginationNav.classList.remove('hidden');
 				emptyMessage.classList.add('hidden');
 
 			// If there are no flashcards to display
 			} else {
+				// Display the empty message, hide the list of flashcards and pagination controls
 				itemsList.classList.add('hidden');
+				paginationNav.classList.add('hidden');
 				emptyMessage.classList.remove('hidden');
+				this.paginationList = null;
 			}
 		}
 

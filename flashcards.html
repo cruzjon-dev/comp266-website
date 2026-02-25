@@ -83,7 +83,10 @@
 						</form>
 					</dialog>
 
-					<ul id="flashcard-sets" class="hidden"></ul>
+					<ul id="flashcard-sets" class="list-js hidden"></ul>
+					<nav id="flashcard-sets-pagination" class="pagination-container hidden" aria-label="Pagination">
+						<ul class="pagination"></ul>
+					</nav>
 
 					<div id="no-flashcard-sets" class="hidden">
 						<p class="">You currently do not have any sets. Please create a set by clicking the "Create Set" button.</p>
@@ -166,7 +169,10 @@
 						</form>
 					</dialog>
 
-					<ul id="flashcards" class="hidden"></ul>
+					<ul id="flashcards" class="list-js hidden"></ul>
+					<nav id="flashcards-pagination" class="pagination-container hidden" aria-label="Pagination">
+						<ul class="pagination"></ul>
+					</nav>
 
 					<div id="no-flashcards" class="hidden">
 						<p class="">You currently do not have any flashcards in this set. Please add a flashcard by clicking the "Add Flashcard" button.</p>
@@ -222,7 +228,7 @@
 
 			<template id="flashcard-set-template">
 				<li class="flashcard-set">
-					<h2></h2>
+					<h2 class="flashcard-set-name"></h2>
 					<button class="view-set-button" type="button" data-id=""><span class="sr-only">View Set</span></button>
 
 					<div class="set-actions">
@@ -264,6 +270,7 @@
 		<script type="text/javascript" src="/vendor/jquery-4.0.0.min.js"></script>
 		<script type="text/javascript" src="/vendor/jquery-ui-1.14.2.custom/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="/vendor/sweetalert2-11.26.19/sweetalert2.all.min.js"></script>
+		<script type="text/javascript" src="/vendor/list-2.3.1.custom.js"></script>
 		<script type="text/javascript" src="/js/nav.js"></script>
 		<script type="text/javascript" src="/js/filter.js"></script>
 		<script type="text/javascript" src="/js/app.js"></script>
