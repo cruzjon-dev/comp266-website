@@ -635,17 +635,13 @@ module.exports = function (list) {
       sortClass: 'pagination-sort-that-is-not-supposed-to-exist'
     });
     events.bind(pagingList.listContainer, 'click', function (e) {
-      var classList = [...e.target.classList];
       var target = e.target || e.srcElement,
           page = list.utils.getAttribute(target, 'data-page'),
           i = list.utils.getAttribute(target, 'data-i');
 
       if (i) {
-        list.show((i - 1) * page + 1, page);
-      }
-
-      if (classList.includes('page') && e.target.closest('.pagination')) {
         e.preventDefault();
+        list.show((i - 1) * page + 1, page);
       }
     });
     list.on('updated', function () {
