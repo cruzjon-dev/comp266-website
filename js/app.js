@@ -824,7 +824,7 @@ Author: Jonathan Cruz
 					updateAccessibilityStatus(statusMessage);
 				}, 200); // The delay is necessary as screen readers will announce the change of focus when the form is submitted which closes its parent dialog element
 
-				showNotification(statusMessage);
+				showNotification(statusMessage, 'success');
 			}
 		}
 	});
