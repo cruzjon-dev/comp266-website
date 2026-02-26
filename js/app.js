@@ -178,8 +178,8 @@ Author: Jonathan Cruz
 			this.flashcardSets = []; // Array of FlashcardSets
 			this.isSetView = true; // Boolean flag that indicates if the "My Flashcards" page should display FlashcardSets or Flashcards
 			this.viewedSetId = null; // The ID of the displayed FlashcardSet
-			this.paginationPosition = 1; // The pagination position which indicates the index/position of the item that should be displayed first (Note: this is not zero-based; it begins at 1)
-			this.paginationFilterValue = '';
+
+			this.#resetPaginationProps();
 		}
 
 		// Fetches data from the local storage, parses it and stores it into the `flashcardSets` attribute. If the data is malformed, the data will not be loaded.
@@ -420,6 +420,13 @@ Author: Jonathan Cruz
 			this.paginationList = new List(section, paginationConfig);
 		}
 
+		// Resets the pagination attributes to their initial values
+		#resetPaginationProps() {
+			this.paginationList = null; // The list object that manages the pagination of the displayed items
+			this.paginationPosition = 1; // The pagination position which indicates the index/position of the item that should be displayed first (Note: this is not zero-based; it begins at 1)
+			this.paginationFilterValue = ''; // The filter value applied to the paginated items
+		}
+
 		// Applies the filter value stored in the instance
 		#applyFilters() {
 			// Check if the pagination list is set. If it does not, exit out of the method.
@@ -448,10 +455,7 @@ Author: Jonathan Cruz
 			const viewTemplateContents = document.importNode(viewTemplate.content, true);
 			const flashcardSet = this.flashcardSets.find((item) => item.id == this.viewedSetId); // Retrieve flashcard set whose ID matches app.viewedSetId
 
-			// Clear the existing pagination list and filters
-			this.paginationList = null;
-			this.paginationPosition = 1;
-			this.paginationFilterValue = '';
+			this.#resetPaginationProps(); // Reset pagination attributes since everything will be rendered from scratch
 
 			// If a matching flashcard set is found, render the "individual set" view (display flashcards in the set)
 			if(flashcardSet) {
@@ -508,7 +512,8 @@ Author: Jonathan Cruz
 				itemsList.classList.add('hidden');
 				paginationNav.classList.add('hidden');
 				emptyMessage.classList.remove('hidden');
-				this.paginationList = null;
+
+				this.#resetPaginationProps();
 			}
 		}
 
@@ -562,7 +567,8 @@ Author: Jonathan Cruz
 				itemsList.classList.add('hidden');
 				paginationNav.classList.add('hidden');
 				emptyMessage.classList.remove('hidden');
-				this.paginationList = null;
+
+				this.#resetPaginationProps();
 			}
 		}
 	}
