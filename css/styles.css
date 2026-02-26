@@ -248,12 +248,14 @@ a:hover, a:focus {
 }
 
 .form-control input[type="text"],
+.form-control input[type="search"],
 .form-control textarea {
 	display: block;
 	width: 100%;
 }
 
 input[type="text"],
+input[type="search"],
 textarea {
 	border: 2px solid var(--color-gray-light);
 	border-radius: 7px;
@@ -276,6 +278,7 @@ button:not([disabled]) {
 }
 
 dialog input[type="text"],
+dialog input[type="search"],
 dialog textarea,
 dialog .button {
 	padding-block: 10px;
@@ -283,6 +286,7 @@ dialog .button {
 
 @media all and (min-width: 1025px) {
 	input[type="text"],
+	input[type="search"],
 	textarea {
 		padding-block: 15px;
 	}

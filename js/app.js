@@ -13,20 +13,6 @@ Author: Jonathan Cruz
 		return Date.now() + "-" + randomNumber;
 	}
 
-	// Applies filters by triggering the "input" event on filter input elements
-	function applyFilters() {
-		const filterInputs = document.querySelectorAll('.filter-input');
-
-		// If there are filter inputs on the page
-		if(filterInputs.length) {
-			const inputEvent = new Event('input', {
-				bubbles: true // Must be set to true since the "input" event is handled and delegated by the document body
-			});
-
-			filterInputs.forEach((el) => el.dispatchEvent(inputEvent)); // Dispatch the event on every element
-		}
-	}
-
 	// Announces the new status of the program for accessibility devices (e.g. screen readers)
 	function updateAccessibilityStatus(message) {
 		const status = document.getElementById('accessibility-status');
@@ -154,27 +140,46 @@ Author: Jonathan Cruz
 	// Represents the application page containing sets/flashcards ("My Flashcards" page)
 	class App {
 		#storageKey = 'flashcardSets'; // The local storage key where the flashcard sets data is stored
-		#itemsPerPage = 2;
 		#paginationListBaseConfig = {
 			listClass: 'list-js',
-			page: this.#itemsPerPage,
+			page: 12, // The number of items per page
 			pagination: {
 				innerWindow: 3,
 				outerWindow: 2,
 				paginationClass: 'pagination'
 			},
-			updated: (list) => { // Keep track of the pagination offset everytime the list is updated
-				const offset = list.i; // The 'i' attribute of the list indicates the offset of the pagination
-				this.paginationOffset = offset;
+			updated: (list) => { // Keep track of the pagination position everytime the list is updated
+				const position = list.i; // The 'i' attribute of the list indicates the position number of the item
+				this.paginationPosition = position;
+			},
+			searchClass: 'filter-input',
+			searchComplete: (list) => { // Keep track of the the filter value and toggle the no results and pagination menu accordingly
+				const container = list.listContainer;
+				const noResultsMessage = container.querySelector('.filter-no-results');
+				const filterInput = container.querySelector('.' + list.searchClass);
+				const paginationNav = container.querySelector('.' + list.pagination.paginationClass).closest('.pagination-container');
+
+				this.paginationFilterValue = filterInput.value;
+
+				// Check if the searched found matching items. If so, hide the "No Results" message and show the pagination controls.
+				if(list.matchingItems.length > 0) {
+					noResultsMessage?.classList.add('hidden');
+					paginationNav?.classList.remove('hidden');
+				// Otherwise, display the "No Results" message and hide the pagination controls.
+				} else {
+					noResultsMessage?.classList.remove('hidden');
+					paginationNav?.classList.add('hidden');
+				}
 			}
-		};
+		}; // The base configuration to be used to initialize the pagination (List.js)
 
 		// The constructor method. Initializes the object's attributes.
 		constructor() {
 			this.flashcardSets = []; // Array of FlashcardSets
 			this.isSetView = true; // Boolean flag that indicates if the "My Flashcards" page should display FlashcardSets or Flashcards
 			this.viewedSetId = null; // The ID of the displayed FlashcardSet
-			this.paginationOffset = 1; // The pagination offset which indicates the index/offset of the item that should be displayed first (Note: this is not zero-based; it begins at 1)
+			this.paginationPosition = 1; // The pagination position which indicates the index/position of the item that should be displayed first (Note: this is not zero-based; it begins at 1)
+			this.paginationFilterValue = '';
 		}
 
 		// Initializes the autocomplete functionality of the search/filter field and the tag input fields
@@ -228,11 +233,9 @@ Author: Jonathan Cruz
 				},
 				// The select event handler of the autocomplete menu. Apply the selected suggestion as the filter.
 				select: (event, ui) => {
-					const input = event.target;
-
 					// Replace the input value entirely with the selected suggestion and apply it as the filter
-					input.value = ui.item.label;
-					applyFilters();
+					this.paginationFilterValue = ui.item.label;
+					this.#applyFilters();
 					$searchField.blur();
 
 					return false;
@@ -351,7 +354,52 @@ Author: Jonathan Cruz
 				this.#renderFlashcards();
 			}
 
-			applyFilters(); // Apply any existing filter after items are rendered
+			this.#applyFilters(); // Apply any existing filter after items are rendered
+		}
+
+		// Initializes the pagination of the displayed items
+		#initPagination() {
+			const section = document.getElementById('flashcards-section');
+			const paginationConfig = {...this.#paginationListBaseConfig};
+			let itemCount;
+			let lastPagePosition; // The position of the 1st item in the last page
+
+			// Check the current view and set the appropriate pagination configuration depending on the view
+			if(this.isSetView) {
+				paginationConfig.valueNames = ['flashcard-set-name']; // These values correspond to the CSS class names of the elements contained in each list item
+				itemCount = this.flashcardSets.length;
+			} else {
+				const flashcardSet = this.flashcardSets.find((item) => item.id === this.viewedSetId); // Get the flashcard set whose id matches this.viewedSetId
+
+				paginationConfig.valueNames = ['flashcard-question', 'flashcard-answer', 'flashcard-tags']; // These values correspond to the CSS class names of the elements contained in each list item
+				itemCount = flashcardSet.flashcards.length;
+			}
+			lastPagePosition = (Math.ceil(itemCount / paginationConfig.page) - 1) * paginationConfig.page + 1;
+			paginationConfig.i = Math.min(this.paginationPosition, lastPagePosition); // This option indicates the starting position of the pagination. Ensure the lastPagePosition is never exceeded (e.g. when there is only 1 item on the last page and it gets deleted).
+
+			// Initialize the pagination (List.js)
+			this.paginationList = new List(section, paginationConfig);
+		}
+
+		// Applies the filter value stored in the instance
+		#applyFilters() {
+			// Check if the pagination list is set. If it does not, exit out of the method.
+			if(!this.paginationList) {
+				return;
+			}
+
+			const container = this.paginationList.listContainer;
+			const filterInput = container.querySelector('.' + this.paginationList.searchClass);
+			const currentPosition = this.paginationPosition; // The current page position value (the search below will trigger the updated event on the list which will cause this value to be overwritten hence why it needs to be recorded before the search)
+
+			// Apply the stored search value as the input field's value and conduct the search
+			filterInput.value = this.paginationFilterValue;
+			this.paginationList.search(this.paginationFilterValue); // Note: The call to this method will reset the page position back to 1
+
+			// Re-apply the page position after the search (go back to the page the user was viewing)
+			const lastPagePosition = (Math.ceil(this.paginationList.matchingItems.length / this.paginationList.page) - 1) * this.paginationList.page + 1; // The position of the 1st item in the last page
+			const pagePosition = Math.min(currentPosition, lastPagePosition); // Ensure the lastPagePosition is never exceeded (e.g. if the user was on the last page and it contains only 1 item, deleting that item will redirect the user to the new lastPagePosition)
+			this.paginationList.show(pagePosition, this.paginationList.page);
 		}
 
 		// Renders the appropriate view within #flashcard-section (currently only switches to the "individual set" view for displaying flashcards in a set)
@@ -361,7 +409,10 @@ Author: Jonathan Cruz
 			const viewTemplateContents = document.importNode(viewTemplate.content, true);
 			const flashcardSet = this.flashcardSets.find((item) => item.id == this.viewedSetId); // Retrieve flashcard set whose ID matches app.viewedSetId
 
-			this.paginationList = null; // Clear reference to the pagination list
+			// Clear the existing pagination list and filters
+			this.paginationList = null;
+			this.paginationPosition = 1;
+			this.paginationFilterValue = '';
 
 			// If a matching flashcard set is found, render the "individual set" view (display flashcards in the set)
 			if(flashcardSet) {
@@ -384,13 +435,6 @@ Author: Jonathan Cruz
 			// If there are flashcard sets to display
 			if(this.flashcardSets?.length && this.flashcardSets.length > 0) {
 				const template = document.getElementById('flashcard-set-template');
-				const sectionId = 'flashcards-section';
-				const lastPageOffset = this.flashcardSets.length - this.#itemsPerPage + 1; // The offset of the 1st item in the last page
-				const paginationConfig = {
-					...this.#paginationListBaseConfig,
-					i: Math.min(this.paginationOffset, lastPageOffset), // This option indicates the starting offset of the pagination. Ensure the lastPageOffset is never exceeded (e.g. when there is only 1 item on the last page and it gets deleted).
-					valueNames: ['flashcard-set-name'], // These values correspond to the CSS class names of the elements contained in each list item
-				};
 
 				// Iterate through each flashcard set, fill in the template with the set's data and append it to the ul element
 				for(const flashcardSet of this.flashcardSets) {
@@ -413,7 +457,7 @@ Author: Jonathan Cruz
 				}
 
 				// Initialize pagination (List.js)
-				this.paginationList = new List(sectionId, paginationConfig);
+				this.#initPagination();
 
 				// Display the list and pagination controls, hide the empty message
 				itemsList.classList.remove('hidden');
@@ -442,13 +486,6 @@ Author: Jonathan Cruz
 			// If there are flashcards to display
 			if(flashcardSet?.flashcards && flashcardSet.flashcards.length > 0) {
 				const template = document.getElementById('flashcard-template');
-				const sectionId = 'flashcards-section';
-				const lastPageOffset = this.flashcardSets.length - this.#itemsPerPage + 1; // The offset of the 1st item in the last page
-				const paginationConfig = {
-					...this.#paginationListBaseConfig,
-					i: Math.min(this.paginationOffset, lastPageOffset), // This option indicates the starting offset of the pagination. Ensure the lastPageOffset is never exceeded (e.g. when there is only 1 item on the last page and it gets deleted).
-					valueNames: ['flashcard-question', 'flashcard-answer', 'flashcard-tags'], // These values correspond to the CSS class names of the elements contained in each list item
-				};
 
 				// Iterate through each flashcard in the set, fill in the template with the flashcard's data and render the flashcard
 				for(const flashcard of flashcardSet.flashcards) {
@@ -473,7 +510,7 @@ Author: Jonathan Cruz
 				}
 
 				// Initialize pagination (List.js)
-				this.paginationList = new List(sectionId, paginationConfig);
+				this.#initPagination();
 
 				// Display the list and pagination, hide the empty message
 				itemsList.classList.remove('hidden');
