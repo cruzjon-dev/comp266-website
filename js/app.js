@@ -182,90 +182,6 @@ Author: Jonathan Cruz
 			this.paginationFilterValue = '';
 		}
 
-		// Initializes the autocomplete functionality of the search/filter field and the tag input fields
-		#initTagsAutocomplete() {
-			const $searchField = $('#cards-search-keywords');
-			const $formFields = $('#add-card-tags, #edit-card-tags');
-
-			// Compiles all flashcard tags that contain the provided keyword (performs a non-case sensitive search) and returns them as an array
-			const getMatchingTags = (keyword) => {
-				const flashcardSet = this.flashcardSets.find((item) => item.id == this.viewedSetId);
-				const flashcards = flashcardSet ? flashcardSet.flashcards : [];
-				const tags = new Set();
-
-				keyword = keyword.trim().toLowerCase(); // Remove excess spaces from the keyword and convert it to lowercase
-
-				// Check if the keyword is empty. If it is, return an empty array.
-				if(keyword == "") {
-					return [];
-				}
-
-				for(const flashcard of flashcards) {
-					const flashcardTags = flashcard.tags.split(','); // Split the string values using "," as the delimiter
-
-					for(let tag of flashcardTags) {
-						tag = tag.trim();
-
-						// Check if the tag is an empty string or if it has already been added to the list. If so, skip it.
-						if(tag == "") {
-							continue;
-						}
-
-						const isMatch = tag.toLowerCase().includes(keyword); // Also convert the tag into lowercase to perform a non-case sensitive search
-
-						// Check if the tag contains the keywords entered in the input field. If it does, add it to the set.
-						if(isMatch) {
-							tags.add(tag);
-						}
-					}
-				}
-
-				return [...tags]; // Return the set as an array (the jQuery UI autocomplete widget does not support sets)
-			}
-
-			// Initialize search field's tag autocomplete (utilizes the default behaviour of the autocomplete library; replaces the input field value with the selected suggestion)
-			$searchField.autocomplete({
-				// Set the autocomplete suggestions
-				source: (request, response) => {
-					const tags = getMatchingTags(request.term);
-
-					response(tags); // Call the response callback with the list of tags to display them as suggestions
-				},
-				// The select event handler of the autocomplete menu. Apply the selected suggestion as the filter.
-				select: (event, ui) => {
-					// Replace the input value entirely with the selected suggestion and apply it as the filter
-					this.paginationFilterValue = ui.item.label;
-					this.#applyFilters();
-					$searchField.blur();
-
-					return false;
-				},
-			});
-
-			// Initialize form fields' tag autocomplete (differs from the default behaviour; overwrites the "select" event and appends the selected suggestion to the input field)
-			$formFields.autocomplete({
-				// Set the autocomplete suggestions
-				source: (request, response) => {
-					const keywords = request.term.split(','); // Split the input field value using "," as the delimiter
-					const tags = getMatchingTags(keywords[keywords.length - 1]); // Treat the last entry of the split input value as the keyword
-
-					response(tags); // Call the response callback with the list of tags to display them as suggestions
-				},
-				// The select event handler of the autocomplete menu. Append the selected item to the current value of the input (overwrites the default behaviour of replacing the value of the input entirely).
-				select: (event, ui) => {
-					const input = event.target;
-					const values = input.value.split(',').map((value) => value.trim());
-
-					// Replace the keyword with the selected item
-					values.pop();
-					values.push(ui.item.label);
-					input.value = values.join(', ');
-
-					return false;
-				}
-			});
-		}
-
 		// Fetches data from the local storage, parses it and stores it into the `flashcardSets` attribute. If the data is malformed, the data will not be loaded.
 		loadData() {
 			const data = localStorage.getItem(this.#storageKey);
@@ -355,6 +271,129 @@ Author: Jonathan Cruz
 			}
 
 			this.#applyFilters(); // Apply any existing filter after items are rendered
+		}
+
+		// Appends a FlashcardSet object to the `flashcardSets` array/attribute
+		addFlashcardSet(flashcardSet) {
+			// Check if the passed value is an instance of the FlashcardSet class. If it is not, throw an error.
+			if(!(flashcardSet instanceof FlashcardSet)) {
+				throw new Error('Flashcard Set could not be added. Invalid instance provided.');
+			}
+
+			this.flashcardSets.push(flashcardSet); // Append the set
+		}
+
+		// Replaces an existing FlashcardSet object in the `flashcardSets` array/attribute with another instance
+		replaceFlashcardSet(id, newFlashcardSet) {
+			const oldFlashcardSet = this.flashcardSets.find((item) => item.id == id); // Retrieve the set whose ID matches the provided ID
+
+			// Check if there is a matching set. If there is none, throw an error.
+			if(!oldFlashcardSet) {
+				throw new Error('Flashcard Set could not be found.');
+			}
+
+			// Check if the new set provided is an instance of the FlashcardSet class. If it is not, throw an error.
+			if(!(newFlashcardSet instanceof FlashcardSet)) {
+				throw new Error('Flashcard Set could not be updated. Invalid instance provided.');
+			}
+
+			this.flashcardSets = this.flashcardSets.map((item) => item.id == id ? newFlashcardSet : item); // Iterate through the items. Replace the matching set with the new set. Retain the other items.
+		}
+
+		// Removes an existing FlashcardSet object from the `flashcardSets` array/attribute
+		removeFlashcardSet(id) {
+			const flashcardSet = this.flashcardSets.find((item) => item.id == id); // Retrieve the set whose ID matches the provided ID
+
+			// Check if there is matching set. If there is none, throw an error.
+			if(!flashcardSet) {
+				throw new Error('Flashcard Set could not be found.');
+			}
+
+			this.flashcardSets = this.flashcardSets.filter((item) => item.id != id); // Filter out the matching set
+		}
+
+		// Initializes the autocomplete functionality of the search/filter field and the tag input fields
+		#initTagsAutocomplete() {
+			const $searchField = $('#cards-search-keywords');
+			const $formFields = $('#add-card-tags, #edit-card-tags');
+
+			// Compiles all flashcard tags that contain the provided keyword (performs a non-case sensitive search) and returns them as an array
+			const getMatchingTags = (keyword) => {
+				const flashcardSet = this.flashcardSets.find((item) => item.id == this.viewedSetId);
+				const flashcards = flashcardSet ? flashcardSet.flashcards : [];
+				const tags = new Set();
+
+				keyword = keyword.trim().toLowerCase(); // Remove excess spaces from the keyword and convert it to lowercase
+
+				// Check if the keyword is empty. If it is, return an empty array.
+				if(keyword == "") {
+					return [];
+				}
+
+				for(const flashcard of flashcards) {
+					const flashcardTags = flashcard.tags.split(','); // Split the string values using "," as the delimiter
+
+					for(let tag of flashcardTags) {
+						tag = tag.trim();
+
+						// Check if the tag is an empty string or if it has already been added to the list. If so, skip it.
+						if(tag == "") {
+							continue;
+						}
+
+						const isMatch = tag.toLowerCase().includes(keyword); // Also convert the tag into lowercase to perform a non-case sensitive search
+
+						// Check if the tag contains the keywords entered in the input field. If it does, add it to the set.
+						if(isMatch) {
+							tags.add(tag);
+						}
+					}
+				}
+
+				return [...tags]; // Return the set as an array (the jQuery UI autocomplete widget does not support sets)
+			}
+
+			// Initialize search field's tag autocomplete (utilizes the default behaviour of the autocomplete library; replaces the input field value with the selected suggestion)
+			$searchField.autocomplete({
+				// Set the autocomplete suggestions
+				source: (request, response) => {
+					const tags = getMatchingTags(request.term);
+
+					response(tags); // Call the response callback with the list of tags to display them as suggestions
+				},
+				// The select event handler of the autocomplete menu. Apply the selected suggestion as the filter.
+				select: (event, ui) => {
+					// Replace the input value entirely with the selected suggestion and apply it as the filter
+					this.paginationFilterValue = ui.item.label;
+					this.#applyFilters();
+					$searchField.blur();
+
+					return false;
+				},
+			});
+
+			// Initialize form fields' tag autocomplete (differs from the default behaviour; overwrites the "select" event and appends the selected suggestion to the input field)
+			$formFields.autocomplete({
+				// Set the autocomplete suggestions
+				source: (request, response) => {
+					const keywords = request.term.split(','); // Split the input field value using "," as the delimiter
+					const tags = getMatchingTags(keywords[keywords.length - 1]); // Treat the last entry of the split input value as the keyword
+
+					response(tags); // Call the response callback with the list of tags to display them as suggestions
+				},
+				// The select event handler of the autocomplete menu. Append the selected item to the current value of the input (overwrites the default behaviour of replacing the value of the input entirely).
+				select: (event, ui) => {
+					const input = event.target;
+					const values = input.value.split(',').map((value) => value.trim());
+
+					// Replace the keyword with the selected item
+					values.pop();
+					values.push(ui.item.label);
+					input.value = values.join(', ');
+
+					return false;
+				}
+			});
 		}
 
 		// Initializes the pagination of the displayed items
@@ -525,45 +564,6 @@ Author: Jonathan Cruz
 				emptyMessage.classList.remove('hidden');
 				this.paginationList = null;
 			}
-		}
-
-		// Appends a FlashcardSet object to the `flashcardSets` array/attribute
-		addFlashcardSet(flashcardSet) {
-			// Check if the passed value is an instance of the FlashcardSet class. If it is not, throw an error.
-			if(!(flashcardSet instanceof FlashcardSet)) {
-				throw new Error('Flashcard Set could not be added. Invalid instance provided.');
-			}
-
-			this.flashcardSets.push(flashcardSet); // Append the set
-		}
-
-		// Replaces an existing FlashcardSet object in the `flashcardSets` array/attribute with another instance
-		replaceFlashcardSet(id, newFlashcardSet) {
-			const oldFlashcardSet = this.flashcardSets.find((item) => item.id == id); // Retrieve the set whose ID matches the provided ID
-
-			// Check if there is a matching set. If there is none, throw an error.
-			if(!oldFlashcardSet) {
-				throw new Error('Flashcard Set could not be found.');
-			}
-
-			// Check if the new set provided is an instance of the FlashcardSet class. If it is not, throw an error.
-			if(!(newFlashcardSet instanceof FlashcardSet)) {
-				throw new Error('Flashcard Set could not be updated. Invalid instance provided.');
-			}
-
-			this.flashcardSets = this.flashcardSets.map((item) => item.id == id ? newFlashcardSet : item); // Iterate through the items. Replace the matching set with the new set. Retain the other items.
-		}
-
-		// Removes an existing FlashcardSet object from the `flashcardSets` array/attribute
-		removeFlashcardSet(id) {
-			const flashcardSet = this.flashcardSets.find((item) => item.id == id); // Retrieve the set whose ID matches the provided ID
-
-			// Check if there is matching set. If there is none, throw an error.
-			if(!flashcardSet) {
-				throw new Error('Flashcard Set could not be found.');
-			}
-
-			this.flashcardSets = this.flashcardSets.filter((item) => item.id != id); // Filter out the matching set
 		}
 	}
 
