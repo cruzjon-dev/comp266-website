@@ -505,8 +505,6 @@ Author: Jonathan Cruz
 			const viewTemplateContents = document.importNode(viewTemplate.content, true);
 			const flashcardSet = this.flashcardSets.find((item) => item.id == this.viewedSetId); // Retrieve flashcard set whose ID matches app.viewedSetId
 
-			this.#resetPaginationProps(); // Reset pagination attributes since everything will be rendered from scratch
-
 			// If a matching flashcard set is found, render the "individual set" view (display flashcards in the set)
 			if(flashcardSet) {
 				const h1 = viewTemplateContents.getElementById('flashcard-set-name');
