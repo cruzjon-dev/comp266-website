@@ -60,7 +60,8 @@ Author: Jonathan Cruz
 				answer.setAttribute('aria-hidden', false);
 			}
 
-			flashcardElement.classList.toggle('flipped'); // Toggle the flashcard's "flipped" CSS class
+			// Toggle the flashcard's "flipped" CSS class and announce the status change to screen readers
+			flashcardElement.classList.toggle('flipped');
 			updateAccessibilityStatus('Card flipped.');
 		}
 	}
@@ -142,7 +143,7 @@ Author: Jonathan Cruz
 		#storageKey = 'flashcardSets'; // The local storage key where the flashcard sets data is stored
 		#paginationListBaseConfig = {
 			listClass: 'list-js',
-			page: 12, // The number of items per page
+			page: 3, // The number of items per page
 			pagination: {
 				innerWindow: 3,
 				outerWindow: 2,
@@ -312,7 +313,7 @@ Author: Jonathan Cruz
 			this.flashcardSets = this.flashcardSets.filter((item) => item.id != id); // Filter out the matching set
 		}
 
-		// Initializes the autocomplete functionality of the search/filter field and the tag input fields
+		// Initializes the autocomplete functionality of the search/filter field and the tag input fields (jQueryUI autocomplete)
 		#initTagsAutocomplete() {
 			const $searchField = $('#cards-search-keywords');
 			const $formFields = $('#add-card-tags, #edit-card-tags');
@@ -416,14 +417,13 @@ Author: Jonathan Cruz
 			lastPagePosition = (Math.ceil(itemCount / paginationConfig.page) - 1) * paginationConfig.page + 1;
 			paginationConfig.i = Math.min(this.paginationPosition, lastPagePosition); // This option indicates the starting position of the pagination. Ensure the lastPagePosition is never exceeded (e.g. when there is only 1 item on the last page and it gets deleted).
 
-			// Initialize the pagination (List.js)
-			this.paginationList = new List(section, paginationConfig);
+			this.paginationList = new List(section, paginationConfig); // Initialize the pagination (List.js)
 		}
 
 		// Resets the pagination attributes to their initial values
 		#resetPaginationProps() {
 			this.paginationList = null; // The list object that manages the pagination of the displayed items
-			this.paginationPosition = 1; // The pagination position which indicates the index/position of the item that should be displayed first (Note: this is not zero-based; it begins at 1)
+			this.paginationPosition = 1; // The pagination position which indicates the index/position of the item that the pagination will navigate to and display as the 1st item (Note: this is not zero-based; it begins at 1)
 			this.paginationFilterValue = ''; // The filter value applied to the paginated items
 		}
 
@@ -499,8 +499,7 @@ Author: Jonathan Cruz
 					itemsList.appendChild(templateContents); // Append the template contents to the list of sets
 				}
 
-				// Initialize pagination (List.js)
-				this.#initPagination();
+				this.#initPagination(); // Initialize pagination (List.js)
 
 				// Display the list and pagination controls, hide the empty message
 				itemsList.classList.remove('hidden');
@@ -553,8 +552,7 @@ Author: Jonathan Cruz
 					itemsList.appendChild(templateContents);
 				}
 
-				// Initialize pagination (List.js)
-				this.#initPagination();
+				this.#initPagination(); // Initialize pagination (List.js)
 
 				// Display the list and pagination, hide the empty message
 				itemsList.classList.remove('hidden');
