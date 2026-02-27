@@ -863,16 +863,18 @@ Author: Jonathan Cruz
 			const flashcardId = formData?.flashcard_id;
 			const { question, answer, tags } = formData;
 			const flashcardSet = app.flashcardSets.find((item) => item.id == app.viewedSetId); // Retrieve the set whose ID matches the ID of the viewed set
-			const oldFlashcard = flashcardSet?.flashcards ? flashcardSet.flashcards.find((item) => item.id == flashcardId) : null; // Retrieve the flashcard in the set whose ID matches the value of the ID input
-			const newFlashcard = new Flashcard(question, answer, tags);
+			const flashcard = flashcardSet?.flashcards ? flashcardSet.flashcards.find((item) => item.id == flashcardId) : null; // Retrieve the flashcard in the set whose ID matches the value of the ID input
+			const today = new Date().toISOString();
 
-			// Retain the id and dateCreated fields of the old flashcard
-			newFlashcard.id = oldFlashcard.id;
-			newFlashcard.dateCreated = oldFlashcard.dateCreated;
-
-			// Check if a matching set was found before proceeding
+			// Check if matching set and flashcard were found before proceeding
 			if(flashcardSet) {
-				flashcardSet.replaceFlashcard(flashcardId, newFlashcard);
+				// Update the editable field(s) and the dateModified attribute
+				flashcard.question = question;
+				flashcard.answer = answer;
+				flashcard.tags = tags;
+				flashcard.dateModified = today;
+
+				flashcardSet.replaceFlashcard(flashcardId, flashcard);
 				app.saveData();
 				app.render();
 				form.submit();
