@@ -269,6 +269,7 @@ Author: Jonathan Cruz
 			// Otherwise, toggle the view and render flashcards within a set
 			} else {
 				this.#renderView();
+				this.#initFlashcardsAutocomplete();
 				this.#renderFlashcards();
 			}
 
@@ -363,19 +364,19 @@ Author: Jonathan Cruz
 		}
 
 		// Initializes the autocomplete functionality of the search/filter field for flashcards and the tag input fields (jQueryUI autocomplete)
-		#initTagsAutocomplete() {
+		#initFlashcardsAutocomplete() {
 			const $searchField = $('#cards-search-keywords');
 			const $formFields = $('#add-card-tags, #edit-card-tags');
 
-			// Compiles all flashcard tags that contain the provided keyword (performs a non-case sensitive search) and returns them as an array
+			// Performs a non-case sensitive search for flashcard tags that contain the provided keyword
 			const getMatchingTags = (keyword) => {
 				const flashcardSet = this.flashcardSets.find((item) => item.id == this.viewedSetId);
 				const flashcards = flashcardSet ? flashcardSet.flashcards : [];
-				const tags = new Set();
+				const tags = new Set(); // Temporarily store the matches within a set to ensure the suggestions are unique (flashcards can have the same tags)
 
 				keyword = keyword.trim().toLowerCase(); // Remove excess spaces from the keyword and convert it to lowercase
 
-				// Check if the keyword is empty. If it is, return an empty array.
+				// Check if the keyword is empty. If it is, return an empty array (do not provide any suggestions).
 				if(keyword == "") {
 					return [];
 				}
@@ -512,8 +513,6 @@ Author: Jonathan Cruz
 				h1.textContent = flashcardSet.name;
 				section.replaceChildren(viewTemplateContents);
 			}
-
-			this.#initTagsAutocomplete(); // Initialize the autocomplete functionality of tags
 		}
 
 		// Renders the sets to the page
