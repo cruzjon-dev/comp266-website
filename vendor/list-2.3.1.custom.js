@@ -582,6 +582,7 @@ module.exports = function (list) {
           classes(item.elm).add(className);
         }
 
+		// Modification: set the aria-current attribute if the page is the current page
         if(currentPage === i) {
           item.elm.firstChild.setAttribute('aria-current', 'page');
         }
@@ -594,7 +595,7 @@ module.exports = function (list) {
           dotted: true
         })[0];
         classes(item.elm).add('disabled');
-        item.elm.firstChild.setAttribute('aria-disabled', 'true');
+        item.elm.firstChild.setAttribute('aria-disabled', 'true'); // Modification: add aria-disabled attribute to ".disabled" pagination item
       }
     }
   };
@@ -640,7 +641,7 @@ module.exports = function (list) {
           i = list.utils.getAttribute(target, 'data-i');
 
       if (i) {
-        e.preventDefault();
+        e.preventDefault(); // Modification: prevent the default behaviour of the '.page' anchor elements when they are clicked
         list.show((i - 1) * page + 1, page);
       }
     });
