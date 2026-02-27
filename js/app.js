@@ -263,6 +263,7 @@ Author: Jonathan Cruz
 		render() {
 			// If it is the "set" view, render the flashcard sets
 			if(this.isSetView) {
+				this.#initSetsAutocomplete();
 				this.#renderSets();
 
 			// Otherwise, toggle the view and render flashcards within a set
@@ -313,7 +314,55 @@ Author: Jonathan Cruz
 			this.flashcardSets = this.flashcardSets.filter((item) => item.id != id); // Filter out the matching set
 		}
 
-		// Initializes the autocomplete functionality of the search/filter field and the tag input fields (jQueryUI autocomplete)
+		// Initializes the autocomplete functionality of the search/filter field for sets (jQueryUI autocomplete)
+		#initSetsAutocomplete() {
+			const $searchField = $('#sets-search-keywords');
+
+			// Performs a non-case sensitive search for sets whose names contain the provided keyword
+			const getMatchingSets = (keyword) => {
+				const matches = new Set(); // Temporarily store the matches within a set to ensure the suggestions are unique (some flashcard sets may have the same name)
+
+				keyword = keyword.trim().toLowerCase(); // Remove excess spaces from the keyword and convert it to lowercase
+
+				// Check if the keyword is empty. If it is, return an empty array (do not provide any suggestions).
+				if(keyword == "") {
+					return [];
+				}
+
+				// Search for sets with names containing the search keyword
+				for(const flashcardSet of this.flashcardSets) {
+					const isMatch = flashcardSet.name.toLowerCase().includes(keyword); // Also convert the tag into lowercase to perform a non-case sensitive search
+
+					// Check if the set's name contains the keywords entered in the input field. If it does, add it to the set.
+					if(isMatch) {
+						matches.add(flashcardSet.name);
+					}
+				}
+
+				return [...matches]; // Return the matching items as an array (the jQuery UI autocomplete widget does not support sets)
+			}
+
+			// Initialize search field's tag autocomplete (utilizes the default behaviour of the autocomplete library; replaces the input field value with the selected suggestion)
+			$searchField.autocomplete({
+				// Set the autocomplete suggestions
+				source: (request, response) => {
+					const matchingSets = getMatchingSets(request.term);
+
+					response(matchingSets); // Call the response callback with the list of tags to display them as suggestions
+				},
+				// The select event handler of the autocomplete menu. Apply the selected suggestion as the filter.
+				select: (event, ui) => {
+					// Replace the input value entirely with the selected suggestion and apply it as the filter
+					this.paginationFilterValue = ui.item.label;
+					this.#applyFilters();
+					$searchField.blur();
+
+					return false;
+				},
+			});
+		}
+
+		// Initializes the autocomplete functionality of the search/filter field for flashcards and the tag input fields (jQueryUI autocomplete)
 		#initTagsAutocomplete() {
 			const $searchField = $('#cards-search-keywords');
 			const $formFields = $('#add-card-tags, #edit-card-tags');
