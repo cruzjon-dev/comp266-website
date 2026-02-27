@@ -778,14 +778,14 @@ Author: Jonathan Cruz
 			const formData = Object.fromEntries(new FormData(form)); // Convert submitted form data into an object
 			const setId = formData?.set_id;
 			const { name } = formData;
-			const oldFlashcardSet = app.flashcardSets.find((item) => item.id == setId);
-			const newFlashcardSet = new FlashcardSet(name);
+			const flashcardSet = app.flashcardSets.find((item) => item.id == setId);
+			const today = new Date().toISOString();
 
-			// Retain the id and dateCreated fields of the old flashcard set
-			newFlashcardSet.id = oldFlashcardSet.id;
-			newFlashcardSet.dateCreated = oldFlashcardSet.dateCreated;
+			// Update the editable field(s) and the dateModified attribute
+			flashcardSet.name = name;
+			flashcardSet.dateModified = today;
 
-			app.replaceFlashcardSet(setId, newFlashcardSet);
+			app.replaceFlashcardSet(setId, flashcardSet);
 			app.saveData();
 			app.render();
 			form.submit();
