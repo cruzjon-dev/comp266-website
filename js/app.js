@@ -461,7 +461,7 @@ Author: Jonathan Cruz
 			} else {
 				const flashcardSet = this.flashcardSets.find((item) => item.id === this.viewedSetId); // Get the flashcard set whose id matches this.viewedSetId
 
-				paginationConfig.valueNames = ['flashcard-question', 'flashcard-answer', 'flashcard-tags']; // These values correspond to the CSS class names of the elements contained in each list item
+				paginationConfig.valueNames = ['flashcard-question', 'flashcard-answer-inner', 'flashcard-tags']; // These values correspond to the CSS class names of the elements contained in each list item
 				itemCount = flashcardSet.flashcards.length;
 			}
 			lastPagePosition = (Math.ceil(itemCount / paginationConfig.page) - 1) * paginationConfig.page + 1;
