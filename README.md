@@ -7,8 +7,9 @@ FlashStash is a study platform that provides users with the ability to manage an
 
 ## Technologies
 
-HTML, CSS, JS and jQuery.  
+HTML, CSS, JS.  
   
+Libraries: jQuery, jQueryUI (core + autocomplete widget), List.js (modified), SweetAlert2, FontAwesome
 API integration: to be determined.
 
 ## Limitations
