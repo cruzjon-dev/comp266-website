@@ -143,7 +143,7 @@ Author: Jonathan Cruz
 		#storageKey = 'flashcardSets'; // The local storage key where the flashcard sets data is stored
 		#paginationListBaseConfig = {
 			listClass: 'list-js',
-			page: 3, // The number of items per page
+			page: 12, // The number of items per page
 			pagination: {
 				innerWindow: 3,
 				outerWindow: 2,
