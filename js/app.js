@@ -276,6 +276,13 @@ Author: Jonathan Cruz
 			this.#applyFilters(); // Apply any existing filter after items are rendered
 		}
 
+		// Sets the app to the individual set view
+		individualSetView(id) {
+			this.#resetPaginationProps();
+			this.viewedSetId = id;
+			this.isSetView = false;
+		}
+
 		// Appends a FlashcardSet object to the `flashcardSets` array/attribute
 		addFlashcardSet(flashcardSet) {
 			// Check if the passed value is an instance of the FlashcardSet class. If it is not, throw an error.
@@ -690,8 +697,7 @@ Author: Jonathan Cruz
 			// Check if the ID is not a falsy value and there is a matching flashcard set
 			if(id && flashcardSet) {
 				// Set the app to "Individual Set" view and render the view
-				app.viewedSetId = id;
-				app.isSetView = false;
+				app.individualSetView(id);
 				app.render();
 			}
 		}
