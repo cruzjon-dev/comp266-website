@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Knowledge Search | FlashStash</title>
+		<meta name="description" content="Search for the definition of words.">
+		<link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+
+		<!-- Stylesheets -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="/vendor/fontawesome-free-7.1.0-web/css/all.min.css">
+		<link rel="stylesheet" type="text/css" href="/css/reset.css">
+		<link rel="stylesheet" type="text/css" href="/css/styles.css">
+	</head>
+
+	<body>
+		<header id="navigation-bar">
+			<div class="container container-large">
+				<img class="site-logo" src="/images/logo.svg" alt="FlashStash Logo">
+
+				<nav id="site-navigation">
+					<ul id="navigation-menu">
+						<li><a href="/">Home</a></li>
+						<li><a href="/about.html">About</a></li>
+						<li><a href="/flashcards.html">My Flashcards</a></li>
+						<li class="active"><a href="/knowledge-search.html">Knowledge Search</a></li>
+					</ul>
+
+					<button id="navigation-toggle" type="button" aria-label="Show Navigation Menu" aria-controls="site-mobile-navigation" aria-expanded="true">
+						<span></span>
+						<span></span>
+						<span></span>
+					</button>
+				</nav>
+			</div>
+
+			<nav id="site-mobile-navigation">
+				<header>
+					<button id="navigation-close" type="button" aria-controls="site-mobile-navigation" aria-expanded="false">
+						<span class="sr-only">Close Navigation Menu</span>
+					</button>
+				</header>
+
+				<ul id="mobile-navigation-menu">
+					<li><a href="/">Home</a></li>
+					<li><a href="/about.html">About</a></li>
+					<li><a href="/flashcards.html">My Flashcards</a></li>
+					<li class="active"><a href="/knowledge-search.html">Knowledge Search</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main>
+			<section id="knowledge-search-section" class="page-section" aria-live="polite">
+				<div class="container">
+					<div class="section-header">
+						<h1>Knowledge Search</h1>
+						<p>To assist in your studies, you can use this page to search for definitions of words. You can opt to use the resulting definitions in your flashcards by manually copying the text and pasting it in your flashcard's answer. This is meant to supplement your learning and is not intended to replace your textbooks or other learning materials.</p>
+						<p><small>Disclosure: The dictionary and encyclopedia search results are respectively fetched from Merriam-Webster's API and Wikipedia's API.</small></p>
+
+						<form id="knowledge-search-form" action="">
+							<label for="knowledge-search-keyword" class="sr-only">Search Keyword</label>
+							<input id="knowledge-search-keyword" name="search" type="search" placeholder="Search keyword">
+
+							<label for="knowledge-search-source" class="sr-only">Select source to search</label>
+							<select id="knowledge-search-source" name="source">
+								<option value="">- Select source to search -</option>
+								<option value="Dictionary" selected>Dictionary</option>
+								<option value="Encyclopedia">Encyclopedia</option>
+							</select>
+
+							<button type="submit" class="button">Search</button>
+						</form>
+					</div>
+
+					<ul id="knowledge-search-results" class="hidden"></ul>
+					<p id="knowledge-search-loading" class="hidden"><span class="fa-solid fa-spinner fa-spin"></span>Loading, please wait.</p>
+					<p id="knowledge-search-no-results" class="hidden">No results found.</p>
+				</div>
+			</section>
+
+			<template id="dictionary-result-template">
+				<li class="knowledge-search-result">
+					<dl>
+						<dt class="result-title"></dt>
+					</dl>
+				</li>
+			</template>
+
+			<template id="encyclopedia-result-template">
+				<li class="knowledge-search-result">
+					<h2 class="result-title"></h2>
+					<div class="result-description"></div>
+					<a class="result-link" href="#" target="_blank" rel="noreferrer noopener">Read Full Entry on Wikipedia</a>
+				</li>
+			</template>
+
+			<div id="accessibility-status" role="status" class="sr-only" aria-live="polite"></div>
+		</main>
+
+		<footer id="site-footer">
+			<div class="container container-large">
+				<a href="/privacy-policy.html">Privacy Policy</a>
+				<p><small>Copyright &copy; 2026</small></p>
+			</div>
+		</footer>
+
+		<!-- Scripts -->
+		<script type="text/javascript" src="/vendor/jquery-4.0.0.min.js"></script>
+		<script type="text/javascript" src="/js/nav.js"></script>
+	</body>
+</html>

@@ -256,9 +256,11 @@ a:hover, a:focus {
 
 input[type="text"],
 input[type="search"],
-textarea {
+textarea,
+select {
 	border: 2px solid var(--color-gray-light);
 	border-radius: 7px;
+	background-color: var(--color-white);
 	padding: 10px 20px;
 	appearance: none;
 }
@@ -271,6 +273,17 @@ textarea::placeholder {
 textarea {
 	height: 150px;
 	resize: none;
+}
+
+select {
+	--icon-size: 16px;
+	--padding-right: 20px;
+
+	padding-right: calc(var(--padding-right) + var(--icon-size) + 20px);
+	background-image: url('../images/chevron-down.svg');
+	background-repeat: no-repeat;
+	background-position: calc(100% - var(--padding-right)) 50%;
+	background-size: var(--icon-size) auto;
 }
 
 button:not([disabled]) {
@@ -287,7 +300,8 @@ dialog .button {
 @media all and (min-width: 1025px) {
 	input[type="text"],
 	input[type="search"],
-	textarea {
+	textarea,
+	select {
 		padding-block: 15px;
 	}
 }
@@ -1129,5 +1143,83 @@ details[open] summary h2 {
 @media all and (min-width: 1025px) {
 	.pagination-container {
 		margin-top: 50px;
+	}
+}
+
+/*-----------------------------------
+- Knowledge Search Section
+-----------------------------------*/
+
+#knowledge-search-section .section-header {
+	text-align: center;
+}
+
+#knowledge-search-form {
+	display: flex;
+	max-width: 300px;
+	margin: 0 auto;
+	flex-flow: column wrap;
+	gap: 20px;
+}
+
+#knowledge-search-results {
+	margin: 40px 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+#knowledge-search-no-results {
+	margin-top: 40px;
+	font-weight: 700;
+	text-align: center;
+}
+
+#knowledge-search-loading {
+	margin: 40px 0;
+	font-weight: 700;
+	text-align: center;
+}
+
+#knowledge-search-loading .fa-spinner {
+	margin-right: 10px;
+}
+
+.knowledge-search-result {
+	background-color: var(--color-white);
+	margin-bottom: 20px;
+	border-radius: 10px;
+	padding: 20px;
+	box-shadow: 0 5px 20px rgba(0, 0, 0, 0.16);
+}
+
+.knowledge-search-result .result-title {
+	font-weight: 700;
+	font-size: var(--font-size-h4);
+}
+
+.knowledge-search-result .result-description,
+.knowledge-search-result .result-link {
+	margin-top: 20px;
+}
+
+.knowledge-search-result .result-link {
+	display: inline-block;
+}
+
+@media all and (min-width: 601px) {
+	#knowledge-search-form {
+		flex-direction: row;
+		max-width: none;
+		justify-content: center;
+	}
+}
+
+@media all and (min-width: 1025px) {
+	#knowledge-search-loading {
+		margin: 80px 0;
+	}
+
+	.knowledge-search-result {
+		border-radius: 20px;
 	}
 }
