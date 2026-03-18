@@ -204,12 +204,20 @@ a:hover, a:focus {
 		color 300ms ease;
 }
 
+button[disabled] {
+	background-color: var(--color-gray-dark) !important;
+	border-color: var(--color-gray-dark) !important;
+	color: var(--color-white) !important;
+	cursor: not-allowed;
+}
+
 .button.button-secondary {
 	--background-color: var(--color-white);
 	--color: var(--color-purple-dark);
 }
 
-.button:hover, .button:focus {
+.button:hover,
+.button:focus {
 	border-color: var(--hover-border-color);
 	background-color: var(--hover-background-color);
 	color: var(--hover-color);
