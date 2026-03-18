@@ -113,11 +113,15 @@ Author: Jonathan Cruz
 
 		// Takes in a string value representing the search keyword performs an asynchronous search based on the selected source. Sets the array of results as the value of the `searchResults` attribute.
 		async search(keyword) {
+			const resultsList = document.getElementById('knowledge-search-results');
+			const noResults = document.getElementById('knowledge-search-no-results');
 			const loading = document.getElementById('knowledge-search-loading');
 
-			// Set the instance as loading and display the loading message
+			// Set the instance as loading, display the loading message, and hide the results and no results message
 			this.loading = true;
 			loading.classList.remove('hidden');
+			resultsList.classList.add('hidden');
+			noResults.classList.add('hidden');
 
 			try {
 				let results;
